@@ -18,7 +18,7 @@ public interface ActionDAO {
     /**
      * Returns a list of all incomplete actions for the user
      */
-    List<Action> getIncompleteActions(String userId);
+    List<Action> getIncompleteActions(String userId) throws RecordNotFoundException;
 
     /**
      * Updates an action

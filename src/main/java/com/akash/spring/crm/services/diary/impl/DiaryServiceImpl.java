@@ -1,30 +1,36 @@
 package com.akash.spring.crm.services.diary.impl;
 
+import com.akash.spring.crm.dao.ActionDAO;
+import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.services.diary.DiaryService;
+import org.springframework.dao.DataAccessException;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Akash Agarwal on 5/3/2016.
  */
 public class DiaryServiceImpl implements DiaryService {
-    private Set<Action> actions = new HashSet<Action>();
+    private ActionDAO dao;
 
-    public void recordAction(Action action) {
-        actions.add(action);
+    public DiaryServiceImpl(ActionDAO dao) {
+        this.dao = dao;
     }
 
-    public List<Action> getAllIncompleteActions(String requiredUser) {
-        List<Action> actionList = new ArrayList<Action>();
-        for (Action next : actions) {
-            if ((next.getOwner().equalsIgnoreCase(requiredUser)) && (!next.isComplete())) {
-                actionList.add(next);
-            }
+    public void recordAction(Action action) {
+        try {
+            this.dao.create(action);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
         }
-        return actionList;
+    }
+
+    public List<Action> getAllIncompleteActions(String requiredUser) throws RecordNotFoundException {
+        try {
+            return this.dao.getIncompleteActions(requiredUser);
+        } catch (DataAccessException e) {
+            throw new RecordNotFoundException();
+        }
     }
 }

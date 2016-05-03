@@ -21,12 +21,12 @@ public interface CustomerService {
     /**
      * The specified customer is updated in the database.
      */
-    void updateCustomer(Customer customer);
+    void updateCustomer(Customer customer) throws CustomerNotFoundException;
 
     /**
      * The specified customer is removed from the database
      */
-    void deleteCustomer(Customer customer);
+    void deleteCustomer(Customer customer) throws CustomerNotFoundException;
 
     /**
      * Finds the customer by Id
@@ -38,12 +38,12 @@ public interface CustomerService {
      * probably offer more sophisticated searching functionality, but for the
      * practical this will do for now.
      */
-    List<Customer> findCustomersByName (String name);
+    List<Customer> findCustomerByCompanyName(String name) throws CustomerNotFoundException;
 
     /**
      * Returns a complete list of the customers in the system.
      */
-    List<Customer> getAllCustomers();
+    List<Customer> getAllCustomers() throws CustomerNotFoundException;
 
     /**
      * For the specified customer, returns the customer object together

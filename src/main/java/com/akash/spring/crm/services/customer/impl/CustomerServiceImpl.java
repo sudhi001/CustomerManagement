@@ -1,14 +1,12 @@
 package com.akash.spring.crm.services.customer.impl;
 
 import com.akash.spring.crm.dao.CustomerDAO;
-import com.akash.spring.crm.dao.impl.CustomerDAOImpl;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
-import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
+import org.springframework.dao.DataAccessException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,39 +14,28 @@ import java.util.List;
  */
 public class CustomerServiceImpl implements CustomerService{
 
-    private CustomerDAO dao = new CustomerDAOImpl();
+    private CustomerDAO dao;
 
-    public CustomerServiceImpl() {
-        Customer cus1 = new Customer();
-        cus1.setCompany("X");
-        cus1.setId("1");
-        cus1.setEmail("d");
-        cus1.setTelephone("333");
-        cus1.setCustomerNotes("ss");
-        List<Call> calls = new ArrayList<Call>();
-        Call call1 = new Call();
-        call1.setCallNotes("First Call");
-        calls.add(call1);
-        cus1.setCustomerCalls(calls);
-        dao.create(cus1);
+    public CustomerServiceImpl(CustomerDAO dao) {
+        this.dao = dao;
     }
 
     public void addCustomer(Customer customer) {
         dao.create(customer);
     }
 
-    public void updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) throws CustomerNotFoundException {
         try {
             dao.update(customer);
-        } catch (RecordNotFoundException e) {
+        } catch (DataAccessException e) {
             e.printStackTrace();
         }
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Customer customer) throws CustomerNotFoundException {
         try {
             dao.delete(customer);
-        } catch (RecordNotFoundException e) {
+        } catch (DataAccessException e) {
             e.printStackTrace();
         }
     }
@@ -56,34 +43,40 @@ public class CustomerServiceImpl implements CustomerService{
     public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
         try {
             return dao.getById(customerId);
-        } catch (RecordNotFoundException e) {
-           e.printStackTrace();
+        } catch (DataAccessException e) {
+            throw new CustomerNotFoundException();
         }
-        return null;
     }
 
-    public List<Customer> findCustomersByName(String name) {
-        return null;
+    public List<Customer> findCustomerByCompanyName(String name) throws CustomerNotFoundException {
+        try {
+            return this.dao.getByCompanyName(name);
+        } catch (DataAccessException e) {
+            throw new CustomerNotFoundException();
+        }
     }
 
-    public List<Customer> getAllCustomers() {
-        return null;
+    public List<Customer> getAllCustomers() throws CustomerNotFoundException {
+        try {
+            return this.dao.findAll();
+        } catch (DataAccessException e) {
+            throw new CustomerNotFoundException();
+        }
     }
 
     public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
         try {
             return dao.getFullCustomerDetail(customerId);
-        } catch (RecordNotFoundException e) {
-            e.printStackTrace();
+        } catch (DataAccessException e) {
+            throw new CustomerNotFoundException();
         }
-        return null;
     }
 
     public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException {
         try {
             dao.addCall(callDetails, customerId);
-        } catch (RecordNotFoundException e) {
-            e.printStackTrace();
+        } catch (DataAccessException e) {
+            throw new CustomerNotFoundException();
         }
     }
 }

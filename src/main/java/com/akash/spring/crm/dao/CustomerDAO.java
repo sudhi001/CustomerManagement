@@ -1,6 +1,6 @@
 package com.akash.spring.crm.dao;
 
-import com.akash.spring.crm.exceptions.RecordNotFoundException;
+import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 
@@ -19,22 +19,22 @@ public interface CustomerDAO {
     /**
      * Finds a customer based on their ID
      */
-    Customer getById(String customerId) throws RecordNotFoundException;
+    Customer getById(String customerId) throws CustomerNotFoundException;
 
     /**
      * Finds all customers whose company name matches the specified name
      */
-    List<Customer> getByName(String name);
+    List<Customer> getByCompanyName(String name) throws CustomerNotFoundException;
 
     /**
      * Updates the specified customer in the database.
      */
-    void update(Customer customer) throws RecordNotFoundException;
+    void update(Customer customer) throws CustomerNotFoundException;
 
     /**
      * Deletes the specified customer from the database.
      */
-    void delete(Customer customer) throws RecordNotFoundException;
+    void delete(Customer customer) throws CustomerNotFoundException;
 
     /**
      * Returns a complete collection of customer objects. Note that it is NOT necessary
@@ -44,16 +44,16 @@ public interface CustomerDAO {
      * in ths system.
      * @return
      */
-    List<Customer> getAllCustomers();
+    List<Customer> findAll() throws CustomerNotFoundException;
 
     /**
      * Returns the full detail for this customer - ie the customer object and ALL
      * calls associated with this customer
      */
-    Customer getFullCustomerDetail(String customerId) throws RecordNotFoundException;
+    Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException;
 
     /**
      * Links the specifed call to the customer in the database.
      */
-    void addCall (Call newCall, String customerId) throws RecordNotFoundException;
+    void addCall(Call newCall, String customerId) throws CustomerNotFoundException;
 }

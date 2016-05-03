@@ -1,5 +1,6 @@
 package com.akash.spring.crm.services.diary;
 
+import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface DiaryService {
     /**
      * Gets all actions for a particular user that have not yet been complete
      */
-    List<Action> getAllIncompleteActions(String requiredUser);
+    List<Action> getAllIncompleteActions(String requiredUser) throws RecordNotFoundException;
 }
