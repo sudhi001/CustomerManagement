@@ -8,6 +8,7 @@ import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,11 @@ public class CustomerServiceImpl implements CustomerService{
         cus1.setEmail("d");
         cus1.setTelephone("333");
         cus1.setCustomerNotes("ss");
+        List<Call> calls = new ArrayList<Call>();
+        Call call1 = new Call();
+        call1.setCallNotes("First Call");
+        calls.add(call1);
+        cus1.setCustomerCalls(calls);
         dao.create(cus1);
     }
 
