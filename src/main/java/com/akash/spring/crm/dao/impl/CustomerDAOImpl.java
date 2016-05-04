@@ -89,7 +89,11 @@ public class CustomerDAOImpl implements CustomerDAO{
     public void update(Customer customer) throws CustomerNotFoundException {
         try {
             this.jdbcTemplate.update(Sql.Customer.UPDATE.getSql(),
-                    customer.getCompany(), customer.getEmail(), customer.getTelephone(), customer.getCustomerNotes());
+                    customer.getCompany(),
+                    customer.getEmail(),
+                    customer.getTelephone(),
+                    customer.getCustomerNotes(),
+                    customer.getId());
         } catch (DataAccessException e) {
             throw new CustomerNotFoundException();
         }

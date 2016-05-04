@@ -5,7 +5,7 @@ import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
-import com.akash.spring.crm.services.diary.DiaryService;
+import com.akash.spring.crm.services.diary.ActionService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class App {
 
         CustomerService customerService = container.getBean(CustomerService.class);
         CallService callService = container.getBean(CallService.class);
-        DiaryService diaryService = container.getBean(DiaryService.class);
+        ActionService actionService = container.getBean(ActionService.class);
         Customer customer = new Customer();
         customer.setId("1");
         customer.setCustomerNotes("Good");
@@ -38,10 +38,12 @@ public class App {
         action1.setDetails("Grr");
         action1.setRequiredBy(new GregorianCalendar(2016, 3, 5));
         action1.setOwner("aka");
+
         Action action2 = new Action();
         action2.setDetails("Brrr");
         action2.setRequiredBy(new GregorianCalendar(2016, 3, 5));
         action2.setOwner("aka");
+
         List<Action> actions = new ArrayList<Action>();
         actions.add(action1);
         actions.add(action2);
@@ -52,14 +54,14 @@ public class App {
             System.out.println("This guy does not exists");
         }
 
-        List<Action> actionList = null;
         try {
-            actionList = diaryService.getAllIncompleteActions("aka");
+            List<Action> actionList = actionService.getAllIncompleteActions("aka");
+
+            for (Action action : actionList) {
+                System.out.println(action);
+            }
         } catch (RecordNotFoundException e) {
             e.printStackTrace();
-        }
-        for (Action action : actionList) {
-            System.out.println(action);
         }
 
         container.close();

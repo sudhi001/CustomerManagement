@@ -5,7 +5,7 @@ import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
-import com.akash.spring.crm.services.diary.DiaryService;
+import com.akash.spring.crm.services.diary.ActionService;
 
 import java.util.Collection;
 
@@ -14,17 +14,17 @@ import java.util.Collection;
  */
 public class CallServiceImpl implements CallService {
     private CustomerService customerService;
-    private DiaryService diaryService;
+    private ActionService actionService;
 
-    public CallServiceImpl(CustomerService customerService, DiaryService diaryService) {
+    public CallServiceImpl(CustomerService customerService, ActionService actionService) {
         this.customerService = customerService;
-        this.diaryService = diaryService;
+        this.actionService = actionService;
     }
 
     public void recordCall(String customerID, Call call, Collection<Action> actions) throws CustomerNotFoundException {
         customerService.recordCall(customerID, call);
         for (Action action : actions) {
-            diaryService.recordAction(action);
+            actionService.recordAction(action);
         }
     }
 }

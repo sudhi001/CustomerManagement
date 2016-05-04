@@ -10,7 +10,7 @@ import java.util.List;
  *
  * Created by Akash Agarwal on 5/2/2016.
  */
-public interface DiaryService {
+public interface ActionService {
 
     /**
      * Records an action in the diary

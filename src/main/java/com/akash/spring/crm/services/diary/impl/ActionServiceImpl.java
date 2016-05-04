@@ -3,7 +3,7 @@ package com.akash.spring.crm.services.diary.impl;
 import com.akash.spring.crm.dao.ActionDAO;
 import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
-import com.akash.spring.crm.services.diary.DiaryService;
+import com.akash.spring.crm.services.diary.ActionService;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * Created by Akash Agarwal on 5/3/2016.
  */
-public class DiaryServiceImpl implements DiaryService {
+public class ActionServiceImpl implements ActionService {
     private ActionDAO dao;
 
-    public DiaryServiceImpl(ActionDAO dao) {
+    public ActionServiceImpl(ActionDAO dao) {
         this.dao = dao;
     }
 

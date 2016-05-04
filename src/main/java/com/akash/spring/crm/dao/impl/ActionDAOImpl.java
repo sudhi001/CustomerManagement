@@ -43,7 +43,7 @@ public class ActionDAOImpl implements ActionDAO {
 
     public List<Action> getIncompleteActions(String userId) throws RecordNotFoundException {
         try {
-            return this.jdbcTemplate.query(Sql.Action.INCOMPLETE.getSql(), new ActionMapper(), userId);
+            return this.jdbcTemplate.query(Sql.Action.INCOMPLETE.getSql(), new ActionMapper(), userId, false);
         } catch (DataAccessException e) {
             throw new RecordNotFoundException();
         }
