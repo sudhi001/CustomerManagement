@@ -1,6 +1,6 @@
 package com.akash.spring.crm.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Call {
     /**
      * Records the time and date of call.
      */
-    private Date callTime;
+    private LocalDateTime callTime;
 
     /**
      * Notes about the call.
@@ -30,11 +30,11 @@ public class Call {
         this.id = id;
     }
 
-    public Date getCallTime() {
+    public LocalDateTime getCallTime() {
         return callTime;
     }
 
-    public void setCallTime(Date callTime) {
+    public void setCallTime(LocalDateTime callTime) {
         this.callTime = callTime;
     }
 

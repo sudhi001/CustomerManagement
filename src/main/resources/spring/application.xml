@@ -1,6 +1,12 @@
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-<beans>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/aop
+                http://www.springframework.org/schema/aop/spring-aop.xsd
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
     <!-- DataSource Bean -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
@@ -34,4 +40,20 @@
         <constructor-arg ref="customerService"/>
         <constructor-arg ref="actionService"/>
     </bean>
+
+    <!-- Advice Bean -->
+    <bean id="timerAdvice" class="com.akash.spring.crm.advice.LoggingAdvice"/>
+
+    <aop:config>
+        <aop:pointcut id="logTimeForAllServiceMethods"
+                      expression="execution(* com.akash.spring.crm.services.*.*.*(..))"/>
+        <aop:pointcut id="logTimeForAllDaoMethods"
+                      expression="execution(* com.akash.spring.crm.dao.*.*(..))"/>
+        <aop:aspect ref="timerAdvice">
+            <aop:around method="timeLogger"
+                        pointcut-ref="logTimeForAllServiceMethods"/>
+            <aop:around method="timeLogger"
+                        pointcut-ref="logTimeForAllDaoMethods"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

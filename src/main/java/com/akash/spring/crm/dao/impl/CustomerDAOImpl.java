@@ -11,6 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -161,7 +163,7 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
     }
 
-    private class CustomerMapper implements RowMapper<Customer> {
+    static class CustomerMapper implements RowMapper<Customer> {
 
         public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
             Customer customer = new Customer();
@@ -174,12 +176,12 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
     }
 
-    private class CallMapper implements RowMapper<Call> {
+    static class CallMapper implements RowMapper<Call> {
 
         public Call mapRow(ResultSet rs, int rowNum) throws SQLException {
             Call call = new Call();
             call.setCallNotes(rs.getString("NOTES"));
-            call.setCallTime(rs.getDate("TIME_AND_DATE"));
+            call.setCallTime(LocalDateTime.ofInstant(rs.getDate("TIME_AND_DATE").toInstant(), ZoneId.systemDefault()));
             return call;
         }
     }

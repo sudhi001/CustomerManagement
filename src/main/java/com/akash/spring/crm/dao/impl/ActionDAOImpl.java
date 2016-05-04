@@ -65,7 +65,7 @@ public class ActionDAOImpl implements ActionDAO {
         }
     }
 
-    private class ActionMapper implements RowMapper<Action> {
+    static class ActionMapper implements RowMapper<Action> {
 
         public Action mapRow(ResultSet rs, int rowNum) throws SQLException {
             Action action = new Action();
@@ -80,3 +80,4 @@ public class ActionDAOImpl implements ActionDAO {
         }
     }
 }
+
