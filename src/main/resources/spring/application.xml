@@ -1,11 +1,23 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation=
-               "http://www.springframework.org/schema/aop
-                http://www.springframework.org/schema/aop/spring-aop.xsd
-                http://www.springframework.org/schema/beans
-                http://www.springframework.org/schema/beans/spring-beans.xsd">
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- Annotations Config -->
+    <context:component-scan base-package="com.akash"/>
+
+    <!-- Transaction Management -->
+    <tx:annotation-driven/>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
     <!-- DataSource Bean -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
@@ -15,45 +27,9 @@
         <property name="password" value=""/>
     </bean>
 
-
     <!-- JDBCTemplate Bean -->
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!-- DAO Beans -->
-    <bean id="customerDao" class="com.akash.spring.crm.dao.impl.CustomerDAOImpl" init-method="createTable">
-        <constructor-arg ref="jdbcTemplate"/>
-    </bean>
-    <bean id="actionDao" class="com.akash.spring.crm.dao.impl.ActionDAOImpl" init-method="createTable">
-        <constructor-arg ref="jdbcTemplate"/>
-    </bean>
-
-    <!-- Service Beans -->
-    <bean id="customerService" class="com.akash.spring.crm.services.customer.impl.CustomerServiceImpl">
-        <constructor-arg ref="customerDao"/>
-    </bean>
-    <bean id="actionService" class="com.akash.spring.crm.services.diary.impl.ActionServiceImpl">
-        <constructor-arg ref="actionDao"/>
-    </bean>
-    <bean id="callService" class="com.akash.spring.crm.services.calls.impl.CallServiceImpl">
-        <constructor-arg ref="customerService"/>
-        <constructor-arg ref="actionService"/>
-    </bean>
-
-    <!-- Advice Bean -->
-    <bean id="timerAdvice" class="com.akash.spring.crm.advice.LoggingAdvice"/>
-
-    <aop:config>
-        <aop:pointcut id="logTimeForAllServiceMethods"
-                      expression="execution(* com.akash.spring.crm.services.*.*.*(..))"/>
-        <aop:pointcut id="logTimeForAllDaoMethods"
-                      expression="execution(* com.akash.spring.crm.dao.*.*(..))"/>
-        <aop:aspect ref="timerAdvice">
-            <aop:around method="timeLogger"
-                        pointcut-ref="logTimeForAllServiceMethods"/>
-            <aop:around method="timeLogger"
-                        pointcut-ref="logTimeForAllDaoMethods"/>
-        </aop:aspect>
-    </aop:config>
 </beans>

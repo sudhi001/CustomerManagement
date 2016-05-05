@@ -5,20 +5,22 @@ import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by Akash Agarwal on 5/2/2016.
  */
+@Transactional
+@Service(value = "customerService")
 public class CustomerServiceImpl implements CustomerService{
 
+    @Autowired
     private CustomerDAO dao;
-
-    public CustomerServiceImpl(CustomerDAO dao) {
-        this.dao = dao;
-    }
 
     public void addCustomer(Customer customer) {
         dao.create(customer);
@@ -40,6 +42,7 @@ public class CustomerServiceImpl implements CustomerService{
         }
     }
 
+    @Transactional(readOnly = true)
     public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
         try {
             return dao.getById(customerId);
@@ -48,6 +51,7 @@ public class CustomerServiceImpl implements CustomerService{
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findCustomerByCompanyName(String name) throws CustomerNotFoundException {
         try {
             return this.dao.getByCompanyName(name);
@@ -56,6 +60,7 @@ public class CustomerServiceImpl implements CustomerService{
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() throws CustomerNotFoundException {
         try {
             return this.dao.findAll();
@@ -64,6 +69,7 @@ public class CustomerServiceImpl implements CustomerService{
         }
     }
 
+    @Transactional(readOnly = true)
     public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
         try {
             return dao.getFullCustomerDetail(customerId);

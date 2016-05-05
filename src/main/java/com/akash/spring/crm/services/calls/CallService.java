@@ -15,7 +15,7 @@ public interface CallService {
 
     /**
      * Records a call with the customer management service, and also records
-     * any actions in the diary service
+     * any actions in the account service
      */
     void recordCall(String customerID, Call call, Collection<Action> actions)
             throws CustomerNotFoundException;

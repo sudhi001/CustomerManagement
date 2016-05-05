@@ -5,10 +5,13 @@ import com.akash.spring.crm.dao.queries.Sql;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -18,14 +21,13 @@ import java.util.List;
 /**
  * Created by Akash Agarwal on 5/2/2016.
  */
+@Repository
 public class CustomerDAOImpl implements CustomerDAO{
 
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public CustomerDAOImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
+    @PostConstruct
     public void createTable() {
         try {
             this.jdbcTemplate.update(Sql.Customer.CREATE_TABLE.getSql());

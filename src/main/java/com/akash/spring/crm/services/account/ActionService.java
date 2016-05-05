@@ -1,4 +1,4 @@
-package com.akash.spring.crm.services.diary;
+package com.akash.spring.crm.services.account;
 
 import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface ActionService {
 
     /**
-     * Records an action in the diary
+     * Records an action in the account
      */
     void recordAction(Action action);
 
