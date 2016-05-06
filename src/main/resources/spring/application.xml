@@ -13,12 +13,6 @@
     <!-- Annotations Config -->
     <context:component-scan base-package="com.akash"/>
 
-    <!-- Transaction Management -->
-    <tx:annotation-driven/>
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
     <!-- DataSource Bean -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
@@ -27,9 +21,52 @@
         <property name="password" value=""/>
     </bean>
 
-    <!-- JDBCTemplate Bean -->
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <!-- JPA Transaction Manager -->
+    <tx:annotation-driven transaction-manager="jpaTransactionManager"/>
+
+    <!-- JPA Transaction Manager -->
+    <bean id="jpaTransactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- EntityManagerFactory Config -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="true"/>
+                <property name="generateDdl" value="true"/>
+            </bean>
+        </property>
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- Hibernate Transaction Manager -->
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+
+    <!-- Hibernate Transaction Manager -->
+    <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          autowire="byType"/>
+
+    <!-- Templates -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate" autowire="byType"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+
+        <property name="dataSource" ref="dataSource"/>
+
+        <property name="packagesToScan">
+            <list>
+                <value>com.akash.spring.crm.model</value>
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+
     </bean>
 
 </beans>

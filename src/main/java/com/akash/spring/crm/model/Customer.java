@@ -1,5 +1,9 @@
 package com.akash.spring.crm.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.List;
 
 /**
@@ -7,11 +11,13 @@ import java.util.List;
  *
  * Created by Akash Agarwal on 5/2/2016.
  */
+@Entity
 public class Customer {
 
     /**
      * Uniqure CustomerID provided.
      */
+    @Id
     private String id;
 
     /**
@@ -37,7 +43,8 @@ public class Customer {
     /**
      * Calls made to the customer
      */
-    private List<Call> customerCalls;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Call> calls;
 
     public String getId() {
         return id;
@@ -79,19 +86,19 @@ public class Customer {
         this.customerNotes = customerNotes;
     }
 
-    public List<Call> getCustomerCalls() {
-        return customerCalls;
+    public List<Call> getCalls() {
+        return calls;
     }
 
-    public void setCustomerCalls(List<Call> customerCalls) {
-        this.customerCalls = customerCalls;
+    public void setCalls(List<Call> calls) {
+        this.calls = calls;
     }
 
     /**
      * Add a new call to the customer
      */
     public void addCall(Call call) {
-        this.customerCalls.add(call);
+        this.calls.add(call);
     }
 
     @Override

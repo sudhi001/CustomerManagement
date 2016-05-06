@@ -1,21 +1,13 @@
 package com.akash.spring.crm.dao.impl;
 
 import com.akash.spring.crm.dao.CustomerDAO;
-import com.akash.spring.crm.dao.queries.Sql;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -24,22 +16,8 @@ import java.util.List;
 @Repository
 public class CustomerDAOImpl implements CustomerDAO{
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @PostConstruct
-    public void createTable() {
-        try {
-            this.jdbcTemplate.update(Sql.Customer.CREATE_TABLE.getSql());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
-        try {
-            this.jdbcTemplate.update(Sql.Customer.CREATE_CALL_TABLE.getSql());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Creates a new customer record.
@@ -47,42 +25,29 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void create(Customer customer) {
-        try {
-            this.jdbcTemplate.update(Sql.Customer.INSERT.getSql(),
-                    customer.getId(),
-                    customer.getCompany(),
-                    customer.getEmail(),
-                    customer.getTelephone(),
-                    customer.getCustomerNotes());
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-        }
+        entityManager.persist(customer);
     }
 
     /**
      * Finds a customer based on their ID
      *
-     * @param customerId
+     * @param id
      */
-    public Customer getById(String customerId) throws CustomerNotFoundException {
-        try {
-            return this.jdbcTemplate.queryForObject(Sql.Customer.FINDBY_ID.getSql(), new CustomerMapper(), customerId);
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+    public Customer getById(String id) throws CustomerNotFoundException {
+        return (Customer) entityManager.createQuery("select customer from Customer as customer where customer.id=:id")
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     /**
      * Finds all customers whose company name matches the specified name
      *
-     * @param name
+     * @param company
      */
-    public List<Customer> getByCompanyName(String name) throws CustomerNotFoundException {
-        try {
-            return this.jdbcTemplate.query(Sql.Customer.FINDBY_COMPANY_NAME.getSql(), new CustomerMapper(), name);
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+    public List<Customer> getByCompanyName(String company) throws CustomerNotFoundException {
+        return entityManager.createQuery("select customer from Customer as customer where customer.company=:company")
+                .setParameter("company", company)
+                .getResultList();
     }
 
     /**
@@ -91,16 +56,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void update(Customer customer) throws CustomerNotFoundException {
-        try {
-            this.jdbcTemplate.update(Sql.Customer.UPDATE.getSql(),
-                    customer.getCompany(),
-                    customer.getEmail(),
-                    customer.getTelephone(),
-                    customer.getCustomerNotes(),
-                    customer.getId());
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+        entityManager.merge(customer);
     }
 
     /**
@@ -109,11 +65,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void delete(Customer customer) throws CustomerNotFoundException {
-        try {
-            this.jdbcTemplate.update(Sql.Customer.DELETE.getSql(), customer.getId());
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+        entityManager.remove(this.getById(customer.getId()));
     }
 
     /**
@@ -126,65 +78,29 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @return
      */
     public List<Customer> findAll() throws CustomerNotFoundException {
-        try {
-            return this.jdbcTemplate.query(Sql.Customer.FINDALL.getSql(), new CustomerMapper());
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+        return entityManager.createQuery("select customer from Customer as customer").getResultList();
     }
 
     /**
      * Returns the full detail for this customer - ie the customer object and ALL
      * calls associated with this customer
      *
-     * @param customerId
+     * @param id
      */
-    public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
-        try {
-            Customer customer = this.getById(customerId);
-            List<Call> callList = this.jdbcTemplate.query(Sql.Customer.CUSTOMER_CALLS.getSql(), new CallMapper(), customerId);
-            customer.setCustomerCalls(callList);
-            return customer;
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
+    public Customer getFullCustomerDetail(String id) throws CustomerNotFoundException {
+        return (Customer) entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=?")
+                .setParameter("id", id)
+                .getSingleResult();
     }
 
     /**
      * Links the specifed call to the customer in the database.
      *
      * @param call
-     * @param customerId
+     * @param id
      */
-    public void addCall(Call call, String customerId) throws CustomerNotFoundException {
-        try {
-            Customer customer = this.getById(customerId);
-            this.jdbcTemplate.update(Sql.Customer.ADD_CALL.getSql(), call.getCallNotes(), call.getCallTime(), customerId);
-        } catch (DataAccessException e) {
-            throw new CustomerNotFoundException();
-        }
-    }
-
-    static class CustomerMapper implements RowMapper<Customer> {
-
-        public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Customer customer = new Customer();
-            customer.setId(rs.getString("CUSTOMER_ID"));
-            customer.setEmail(rs.getString("EMAIL"));
-            customer.setTelephone(rs.getString("TELEPHONE"));
-            customer.setCustomerNotes(rs.getString("NOTES"));
-            customer.setCompany(rs.getString("COMPANY_NAME"));
-            return customer;
-        }
-    }
-
-    static class CallMapper implements RowMapper<Call> {
-
-        public Call mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Call call = new Call();
-            call.setCallNotes(rs.getString("NOTES"));
-            call.setCallTime(LocalDateTime.ofInstant(rs.getDate("TIME_AND_DATE").toInstant(), ZoneId.systemDefault()));
-            return call;
-        }
+    public void addCall(Call call, String id) throws CustomerNotFoundException {
+        Customer customer = entityManager.find(Customer.class, id);
+        customer.addCall(call);
     }
 }

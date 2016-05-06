@@ -1,5 +1,4 @@
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
-import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
@@ -47,23 +46,26 @@ public class App {
         List<Action> actions = new ArrayList<Action>();
         actions.add(action1);
         actions.add(action2);
-
+        actionService.recordAction(action1);
+        actionService.recordAction(action2);
         try {
             callService.recordCall("1", call, actions);
         } catch (CustomerNotFoundException e) {
             System.out.println("This guy does not exists");
         }
 
-        try {
-            List<Action> actionList = actionService.getAllIncompleteActions("aka");
-
-            for (Action action : actionList) {
-                System.out.println(action);
-            }
-        } catch (RecordNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<Action> actionList = actionService.getAllIncompleteActions("aka");
+//
+//            for (Action action : actionList) {
+//                System.out.println(action);
+//            }
+//        } catch (RecordNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         container.close();
+
+
     }
 }

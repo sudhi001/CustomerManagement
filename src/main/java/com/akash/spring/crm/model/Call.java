@@ -1,5 +1,9 @@
 package com.akash.spring.crm.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 /**
@@ -8,8 +12,11 @@ import java.time.LocalDateTime;
  *
  * Created by Akash Agarwal on 5/2/2016.
  */
+@Entity
 public class Call {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**
