@@ -1,9 +1,9 @@
-package com.akash.spring.crm.services.account.impl;
+package com.akash.spring.crm.services.action.impl;
 
 import com.akash.spring.crm.dao.ActionDAO;
 import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
-import com.akash.spring.crm.services.account.ActionService;
+import com.akash.spring.crm.services.action.ActionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;

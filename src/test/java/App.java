@@ -1,8 +1,9 @@
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
+import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-import com.akash.spring.crm.services.account.ActionService;
+import com.akash.spring.crm.services.action.ActionService;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,13 +24,16 @@ public class App {
         CustomerService customerService = container.getBean(CustomerService.class);
         CallService callService = container.getBean(CallService.class);
         ActionService actionService = container.getBean(ActionService.class);
+
+        // adding a customer
         Customer customer = new Customer();
         customer.setId("1");
         customer.setCustomerNotes("Good");
         customer.setCompany("Acme");
-
+        customer.setTelephone("333");
         customerService.addCustomer(customer);
 
+        // updating customer with calls and actions
         Call call = new Call();
         call.setCallNotes("Say hello");
 
@@ -46,26 +50,38 @@ public class App {
         List<Action> actions = new ArrayList<Action>();
         actions.add(action1);
         actions.add(action2);
-        actionService.recordAction(action1);
-        actionService.recordAction(action2);
+
         try {
             callService.recordCall("1", call, actions);
         } catch (CustomerNotFoundException e) {
             System.out.println("This guy does not exists");
         }
 
-//        try {
-//            List<Action> actionList = actionService.getAllIncompleteActions("aka");
-//
-//            for (Action action : actionList) {
-//                System.out.println(action);
-//            }
-//        } catch (RecordNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        // getting all the incomplete actions against a particular action owner.
+        try {
+            List<Action> actionList = actionService.getAllIncompleteActions("aka");
 
+            for (Action action : actionList) {
+                System.out.println(action);
+            }
+        } catch (RecordNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // deleting a customer
+        try {
+            Customer customerById = customerService.findCustomerById("1");
+            customerService.deleteCustomer(customerById);
+        } catch (CustomerNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // checking if customer is deleted
+        try {
+            customerService.findCustomerById("1");
+        } catch (CustomerNotFoundException e) {
+            System.out.println("User does not exists");
+        }
         container.close();
-
-
     }
 }

@@ -25,7 +25,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void create(Customer customer) {
-        entityManager.persist(customer);
+        this.entityManager.persist(customer);
     }
 
     /**
@@ -34,9 +34,13 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param id
      */
     public Customer getById(String id) throws CustomerNotFoundException {
-        return (Customer) entityManager.createQuery("select customer from Customer as customer where customer.id=:id")
-                .setParameter("id", id)
-                .getSingleResult();
+        try {
+            return (Customer) this.entityManager.createQuery("select customer from Customer as customer where customer.id=:id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (Exception e) {
+            throw new CustomerNotFoundException();
+        }
     }
 
     /**
@@ -45,9 +49,13 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param company
      */
     public List<Customer> getByCompanyName(String company) throws CustomerNotFoundException {
-        return entityManager.createQuery("select customer from Customer as customer where customer.company=:company")
-                .setParameter("company", company)
-                .getResultList();
+        try {
+            return this.entityManager.createQuery("select customer from Customer as customer where customer.company=:company")
+                    .setParameter("company", company)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new CustomerNotFoundException();
+        }
     }
 
     /**
@@ -65,7 +73,8 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void delete(Customer customer) throws CustomerNotFoundException {
-        entityManager.remove(this.getById(customer.getId()));
+        customer = this.entityManager.merge(customer);
+        this.entityManager.remove(customer);
     }
 
     /**
@@ -78,7 +87,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @return
      */
     public List<Customer> findAll() throws CustomerNotFoundException {
-        return entityManager.createQuery("select customer from Customer as customer").getResultList();
+        return this.entityManager.createQuery("select customer from Customer as customer").getResultList();
     }
 
     /**
@@ -88,7 +97,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param id
      */
     public Customer getFullCustomerDetail(String id) throws CustomerNotFoundException {
-        return (Customer) entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=?")
+        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.call where customer.id=?")
                 .setParameter("id", id)
                 .getSingleResult();
     }
@@ -100,7 +109,8 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param id
      */
     public void addCall(Call call, String id) throws CustomerNotFoundException {
-        Customer customer = entityManager.find(Customer.class, id);
+        Customer customer = this.entityManager.find(Customer.class, id);
+        System.out.print(customer.toString());
         customer.addCall(call);
     }
 }

@@ -1,9 +1,6 @@
 package com.akash.spring.crm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
  * Created by Akash Agarwal on 5/2/2016.
  */
 @Entity
+@Table(name = "TBL_CALL")
 public class Call {
 
     @Id

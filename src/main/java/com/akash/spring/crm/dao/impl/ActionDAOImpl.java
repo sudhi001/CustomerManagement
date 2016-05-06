@@ -22,8 +22,8 @@ public class ActionDAOImpl implements ActionDAO {
         this.hibernateTemplate.save(action);
     }
 
-    public List<Action> getIncompleteActions(String userId) throws RecordNotFoundException {
-        return (List<Action>) this.hibernateTemplate.find("find from Action where action.owner=? and action.complete=false", userId);
+    public List<Action> getIncompleteActions(String owner) throws RecordNotFoundException {
+        return (List<Action>) this.hibernateTemplate.find("from Action where owner=?", owner);
     }
 
     public void update(Action action) throws RecordNotFoundException {
@@ -31,8 +31,8 @@ public class ActionDAOImpl implements ActionDAO {
     }
 
     public void delete(Action action) throws RecordNotFoundException {
-        Action action1 = this.hibernateTemplate.merge(action);
-        this.hibernateTemplate.delete(action1);
+        action = this.hibernateTemplate.merge(action);
+        this.hibernateTemplate.delete(action);
     }
 }
 

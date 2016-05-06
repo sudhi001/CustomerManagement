@@ -3,7 +3,7 @@ package com.akash.spring.crm.services.calls.impl;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
-import com.akash.spring.crm.services.account.ActionService;
+import com.akash.spring.crm.services.action.ActionService;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
