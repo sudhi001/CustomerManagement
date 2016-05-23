@@ -1,6 +1,7 @@
 package com.akash.spring.crm.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "TBL_CALL")
-public class Call {
+public class Call implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

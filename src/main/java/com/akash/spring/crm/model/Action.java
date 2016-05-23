@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -13,7 +14,7 @@ import java.util.GregorianCalendar;
  * Created by Akash Agarwal on 5/2/2016.
  */
 @Entity
-public class Action {
+public class Action implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

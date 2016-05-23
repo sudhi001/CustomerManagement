@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by Akash Agarwal on 5/2/2016.
  */
 @Entity
-public class Customer {
+public class Customer implements Serializable {
 
     /**
      * Uniqure CustomerID provided.

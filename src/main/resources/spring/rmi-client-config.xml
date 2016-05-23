@@ -1,0 +1,19 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="customerServiceClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost/CustomerService"/>
+        <property name="serviceInterface" value="com.akash.spring.crm.services.customer.CustomerService"/>
+    </bean>
+
+    <bean id="actionServiceClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost/ActionService"/>
+        <property name="serviceInterface" value="com.akash.spring.crm.services.action.ActionService"/>
+    </bean>
+
+    <bean id="callServiceClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+        <property name="serviceUrl" value="rmi://localhost/CallService"/>
+        <property name="serviceInterface" value="com.akash.spring.crm.services.calls.CallService"/>
+    </bean>
+</beans>

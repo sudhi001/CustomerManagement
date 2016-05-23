@@ -19,7 +19,7 @@ public class App {
 
     public static void main (String[] args) {
         ClassPathXmlApplicationContext container =
-                new ClassPathXmlApplicationContext("file:src/main/resources/spring/application.xml");
+                new ClassPathXmlApplicationContext("file:src/main/resources/spring/datasource-config.xml");
 
         CustomerService customerService = container.getBean(CustomerService.class);
         CallService callService = container.getBean(CallService.class);
