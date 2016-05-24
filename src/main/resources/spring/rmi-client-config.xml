@@ -2,9 +2,12 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="customerServiceClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
-        <property name="serviceUrl" value="rmi://localhost/CustomerService"/>
-        <property name="serviceInterface" value="com.akash.spring.crm.services.customer.CustomerService"/>
+    <bean id="customerServiceClient" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+        <property name="wsdlDocumentUrl" value="http://localhost:8080/customerEndpointService?wsdl"/>
+        <property name="serviceInterface" value="generated.com.akash.spring.crm.webservices.CustomerEndpoint"/>
+        <property name="namespaceUri" value="http://webservices.crm.spring.akash.com/"/>
+        <property name="serviceName" value="customerEndpointService"/>
+        <property name="portName" value="CustomerEndpointPort"/>
     </bean>
 
     <bean id="actionServiceClient" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">

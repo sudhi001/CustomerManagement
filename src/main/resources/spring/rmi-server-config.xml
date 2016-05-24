@@ -12,11 +12,12 @@
 
     <import resource="datasource-config.xml"/>
 
-    <bean id="customer-remoting"
-          class="org.springframework.remoting.rmi.RmiServiceExporter">
-        <property name="service" ref="customerService"/>
-        <property name="serviceName" value="CustomerService"/>
-        <property name="serviceInterface" value="com.akash.spring.crm.services.customer.CustomerService"/>
+    <bean id="customer-ws-remoting"
+          class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter"/>
+
+    <bean id="customerEndpointService"
+          class="com.akash.spring.crm.webservices.CustomerEndpoint">
+        <property name="customerService" ref="customerService"/>
     </bean>
 
     <bean id="action-remoting"
