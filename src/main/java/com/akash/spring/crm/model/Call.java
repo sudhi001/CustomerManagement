@@ -14,7 +14,12 @@ import java.time.LocalDateTime;
 @Table(name = "TBL_CALL")
 public class Call implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 

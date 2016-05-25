@@ -22,7 +22,8 @@ public class ActionDAOImpl implements ActionDAO {
         this.hibernateTemplate.save(action);
     }
 
-    public List<Action> getIncompleteActions(String owner) throws RecordNotFoundException {
+    @SuppressWarnings("unchecked")
+	public List<Action> getIncompleteActions(String owner) throws RecordNotFoundException {
         return (List<Action>) this.hibernateTemplate.find("from Action where owner=?", owner);
     }
 

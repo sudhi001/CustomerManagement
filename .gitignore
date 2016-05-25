@@ -17,3 +17,12 @@ hs_err_pid*
 .idea/
 CustomerManagement.iml
 
+/target/
+
+# Eclipse Specific #
+.settings/
+.classpath
+.project
+.springBeans
+CustomerManagement.eml
+CustomerManagement.userlibraries

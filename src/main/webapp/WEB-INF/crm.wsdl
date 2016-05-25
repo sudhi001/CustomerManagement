@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:sch="http://www.akash.com/crm" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://www.akash.com/crm" targetNamespace="http://www.akash.com/crm">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.akash.com/crm">
+
+			<xs:element name="getCustomerByIdRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="tns:customerIdType" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="getCustomerByIdResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="customer" type="tns:customer" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:complexType name="customer">
+				<xs:sequence>
+					<xs:element name="id" type="tns:customerIdType"></xs:element>
+					<xs:element name="company" type="xs:string"></xs:element>
+					<xs:element name="email" type="xs:string"></xs:element>
+					<xs:element name="customerNotes" type="xs:string"
+						minOccurs="0" maxOccurs="1"></xs:element>
+					<xs:element name="telephone" type="xs:string" minOccurs="0"
+						maxOccurs="1" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="customerIdType">
+				<xs:restriction base="xs:string">
+					<xs:length value="5"></xs:length>
+					<xs:pattern value="[0-9]+"></xs:pattern>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getCustomerByIdRequest">
+		<wsdl:part element="tns:getCustomerByIdRequest" name="getCustomerByIdRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getCustomerByIdResponse">
+		<wsdl:part element="tns:getCustomerByIdResponse" name="getCustomerByIdResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="CustomerService">
+		<wsdl:operation name="getCustomerById">
+			<wsdl:input message="tns:getCustomerByIdRequest" name="getCustomerByIdRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:getCustomerByIdResponse" name="getCustomerByIdResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="CustomerServiceSoap11" type="tns:CustomerService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getCustomerById">
+			<soap:operation soapAction="" />
+			<wsdl:input name="getCustomerByIdRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="getCustomerByIdResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="CustomerServiceService">
+		<wsdl:port binding="tns:CustomerServiceSoap11" name="CustomerServiceSoap11">
+			<soap:address location="http://localhost:8080/crm/webservices/CustomerService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -19,10 +19,10 @@
 
 			<c:forEach items="${customers}" var="customer">
 				<tr>
-					<td>${customer.companyName}</td>
-					<td>${customer.notes}</td>
+					<td>${customer.company}</td>
+					<td>${customer.customerNotes}</td>
 				</tr>
 			</c:forEach>
-	 	<table>
+	 	</table>
 	</body>
 </html>

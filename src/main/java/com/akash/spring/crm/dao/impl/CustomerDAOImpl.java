@@ -14,6 +14,7 @@ import java.util.List;
  * Created by Akash Agarwal on 5/2/2016.
  */
 @Repository
+@SuppressWarnings("unchecked")
 public class CustomerDAOImpl implements CustomerDAO{
 
     @PersistenceContext
@@ -48,7 +49,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      *
      * @param company
      */
-    public List<Customer> getByCompanyName(String company) throws CustomerNotFoundException {
+	public List<Customer> getByCompanyName(String company) throws CustomerNotFoundException {
         try {
             return this.entityManager.createQuery("select customer from Customer as customer where customer.company=:company")
                     .setParameter("company", company)
