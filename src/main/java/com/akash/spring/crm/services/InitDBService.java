@@ -25,7 +25,7 @@ public class InitDBService {
         customer.setEmail("aaa");
         customer.setCustomerNotes("Hello");
         customer.setTelephone("333333");
-        customer.setId("332");
+        customer.setId("32532");
         customerService.addCustomer(customer);
     }
 }

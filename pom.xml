@@ -61,6 +61,28 @@
             <artifactId>spring-webflow</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.ws</groupId>
+            <artifactId>spring-ws-core</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <!-- http://mvnrepository.com/artifact/org.jdom/jdom -->
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <!-- http://mvnrepository.com/artifact/wsdl4j/wsdl4j-qname -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j-qname</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

@@ -1,115 +1,52 @@
 package com.akash.spring.crm.webservices;
 
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
-import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
-
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import java.util.List;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 /**
  * Created by Akash Agarwal on 5/24/2016.
  */
-@WebService(serviceName = "customerEndpointService")
-public class CustomerEndpoint implements CustomerService {
+@Endpoint
+public class CustomerEndpoint {
 
+    public static final String NAMESPACE = "http://www.akash.com/crm";
+
+    @Autowired
     private CustomerService customerService;
 
-    @WebMethod(exclude = true)
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    @PayloadRoot(namespace = NAMESPACE, localPart = "getCustomerByIdRequest")
+    @ResponsePayload
+    public Element fetchCustomerDetailsJDomVersion(@RequestPayload Element incoming)
+            throws CustomerNotFoundException {
+        Element id = incoming.getChild("id");
+        String ide = id.getText();
 
-    /**
-     * Takes a customer domain object and saves it in the database
-     *
-     * @param customer
-     */
-    public void addCustomer(Customer customer) {
-        this.customerService.addCustomer(customer);
-    }
+        Customer found = customerService.findCustomerById(ide);
 
-    /**
-     * The specified customer is updated in the database.
-     *
-     * @param customer
-     */
-    public void updateCustomer(Customer customer) throws CustomerNotFoundException {
-        this.customerService.updateCustomer(customer);
-    }
+        Element outgoing = new Element("getCustomerByIdResponse");
+        outgoing.addNamespaceDeclaration(Namespace.getNamespace("tns", NAMESPACE));
 
-    /**
-     * The specified customer is removed from the database
-     *
-     * @param customer
-     */
-    public void deleteCustomer(Customer customer) throws CustomerNotFoundException {
-        this.customerService.deleteCustomer(customer);
-    }
+        Element customer = new Element("customer");
 
-    /**
-     * Finds the customer by Id
-     *
-     * @param customerId
-     */
-    public Customer findCustomerById(String customerId) throws CustomerNotFoundException {
-        Customer customer = this.customerService.findCustomerById(customerId);
-        if (customer != null) {
-            customer.setCalls(null);
-        }
-        return customer;
-    }
+        customer.addContent(new Element("id").setText(found.getId()));
+        customer.addContent(new Element("company").setText(found.getCompany()));
+        customer.addContent(new Element("email").setText(found.getEmail()));
 
-    /**
-     * Finds customers by their name. Note that in a full system, we'd
-     * probably offer more sophisticated searching functionality, but for the
-     * practical this will do for now.
-     *
-     * @param name
-     */
-    public List<Customer> findCustomerByCompanyName(String name) throws CustomerNotFoundException {
-        List<Customer> customerList = this.customerService.findCustomerByCompanyName(name);
-        if (!customerList.isEmpty()) {
-            for (Customer customer : customerList) {
-                customer.setCalls(null);
-            }
-        }
-        return customerList;
-    }
+        if (found.getTelephone() != null)
+            customer.addContent(new Element("telephone").setText(found.getTelephone()));
 
-    /**
-     * Returns a complete list of the customers in the system.
-     */
-    public List<Customer> getAllCustomers() throws CustomerNotFoundException {
-        List<Customer> customerList = this.customerService.getAllCustomers();
-        if (!customerList.isEmpty()) {
-            for (Customer customer : customerList) {
-                customer.setCalls(null);
-            }
-        }
-        return customerList;
-    }
+        if (found.getCustomerNotes() != null)
+            customer.addContent(new Element("customerNotes").setText(found.getCustomerNotes()));
 
-    /**
-     * For the specified customer, returns the customer object together
-     * will all calls associated with that customer
-     *
-     * @param customerId
-     * @throws CustomerNotFoundException
-     */
-    public Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException {
-        return this.customerService.getFullCustomerDetail(customerId);
-    }
-
-    /**
-     * Records a call against a particular customer
-     *
-     * @param customerId
-     * @param callDetails
-     */
-    public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException {
-        this.customerService.recordCall(customerId, callDetails);
+        outgoing.addContent(customer);
+        return outgoing;
     }
 }
