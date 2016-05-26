@@ -1,12 +1,15 @@
 package com.akash.spring.crm.services;
 
-import com.akash.spring.crm.model.Customer;
-import com.akash.spring.crm.services.customer.CustomerService;
+
+import javax.annotation.PostConstruct;
+
+import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
+import com.akash.spring.crm.model.Customer;
+import com.akash.spring.crm.services.customer.CustomerService;
 
 /**
  * Created by Akash Agarwal on 5/23/2016.
@@ -25,7 +28,9 @@ public class InitDBService {
         customer.setEmail("aaa");
         customer.setCustomerNotes("Hello");
         customer.setTelephone("333333");
-        customer.setId("298532");
+        customer.setId("19532");
         customerService.addCustomer(customer);
+        
+        DatabaseManagerSwing.main(new String[]{"--url", "jdbc:hsqldb:mem:crm", "--user", "sa", "--password", ""});
     }
 }

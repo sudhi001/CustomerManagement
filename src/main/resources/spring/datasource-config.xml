@@ -10,13 +10,10 @@
                 http://www.springframework.org/schema/tx
                 http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!-- Annotations Config 
-    <context:component-scan base-package="com.akash"/>
--->
     <!-- DataSource Bean -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-        <property name="url" value="jdbc:hsqldb:file:crm;shutdown=true"/>
+        <property name="url" value="jdbc:hsqldb:mem:crm;shutdown=true"/>
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
@@ -39,7 +36,7 @@
         </property>
         <property name="jpaProperties">
             <props>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
             </props>
         </property>
         <property name="dataSource" ref="dataSource"/>
@@ -64,7 +61,7 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
             </props>
         </property>
     </bean>

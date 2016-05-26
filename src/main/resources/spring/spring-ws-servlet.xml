@@ -12,11 +12,13 @@
 
 	<!-- 
     <import resource="datasource-config.xml"/>
+    -->
     <sws:dynamic-wsdl id="customers" portTypeName="CustomerService" locationUri="/CustomerService"
-                      targetNamespace="http://www.akash.com/crm">
-        <sws:xsd location="/WEB-INF/CRMSchema.xsd"/>
+                      targetNamespace="http://www.akash.com/crm/customers">
+        <sws:xsd location="/WEB-INF/CustomerSchema.xsd"/>
     </sws:dynamic-wsdl>
-     -->
      
-    <sws:static-wsdl location="/WEB-INF/crm.wsdl" id="customers"/> 
+    <!--  
+    <sws:static-wsdl location="/WEB-INF/crm.wsdl" id="customers"/>
+    --> 
 </beans>
