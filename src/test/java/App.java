@@ -70,8 +70,9 @@ public class App {
 
         // deleting a customer
         try {
-            Customer customerById = customerService.findCustomerById("1");
-            customerService.deleteCustomer(customerById);
+            Customer customerById = customerService.getFullCustomerDetail("1");
+//            customerService.deleteCustomer(customerById);
+            System.out.println(customerById.getCompany());
         } catch (CustomerNotFoundException e) {
             e.printStackTrace();
         }

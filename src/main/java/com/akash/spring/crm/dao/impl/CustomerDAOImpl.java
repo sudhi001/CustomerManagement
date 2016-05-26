@@ -98,7 +98,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param id
      */
     public Customer getFullCustomerDetail(String id) throws CustomerNotFoundException {
-        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.call where customer.id=?")
+        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
     }
