@@ -11,8 +11,10 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.services.action.ActionService;
+import com.akash.spring.crm.xml.actions.ActionXML;
 import com.akash.spring.crm.xml.actions.GetAllIncompleteActionsRequest;
 import com.akash.spring.crm.xml.actions.GetAllIncompleteActionsResponse;
+import com.akash.spring.crm.xml.actions.RecordActionRequest;
 
 /**
  * Created by Akash Agarwal on 5/24/2016.
@@ -38,5 +40,15 @@ public class ActionEndpoint {
 		}
     	GetAllIncompleteActionsResponse response = new GetAllIncompleteActionsResponse(actions);
     	return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE, localPart = "recordActionRequest")
+    public void recordActionRequest(@RequestPayload RecordActionRequest request) {
+    	ActionXML actionXML = request.getAction();
+    	Action action = new Action();
+    	action.setDetails(actionXML.getDetails());
+    	action.setOwner(actionXML.getOwner());
+    	action.setRequiredBy(actionXML.getRequiredBy().toGregorianCalendar());
+    	actionService.recordAction(action);
     }
 }
