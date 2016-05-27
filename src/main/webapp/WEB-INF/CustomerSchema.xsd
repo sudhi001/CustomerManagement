@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:customers="http://www.akash.com/crm/customers"
+           xmlns:calls="http://www.akash.com/crm/calls"
            targetNamespace="http://www.akash.com/crm/customers">
 
+	<xs:import namespace="http://www.akash.com/crm/calls" schemaLocation="CallSchema.xsd"/>
+	
+	
 	<!-- CustomerService.findCustomerById(String id) Request/Response Pattern -->
     <xs:element name="getCustomerByIdRequest">
         <xs:complexType>
@@ -84,11 +88,12 @@
 	<!-- Customer Domain Object Schema Definition -->
     <xs:complexType name="customer">
         <xs:sequence>
-            <xs:element name="id" type="customers:customerIdType"></xs:element>
-            <xs:element name="company" type="xs:string"></xs:element>
-            <xs:element name="email" type="xs:string"></xs:element>
-            <xs:element name="customerNotes" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="id" type="customers:customerIdType"/>
+            <xs:element name="company" type="xs:string"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="customerNotes" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="telephone" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="calls" type="calls:call" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 

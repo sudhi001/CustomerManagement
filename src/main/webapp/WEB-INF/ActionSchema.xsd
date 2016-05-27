@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:actions="http://www.akash.com/crm/actions" 
+           targetNamespace="http://www.akash.com/crm/actions">
+  
+    <!-- ActionService.recordAction(Action) Request/Response Pattern -->
+    <xs:element name="recordActionRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="action" type="actions:action"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+	<!-- ActionService.getAllIncompleteActions(String owner) Request -->
+    <xs:element name="getAllIncompleteActionsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="owner" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+	
+	<!-- ActionService.getAllIncompleteActions(String owner) Response -->
+	<xs:element name="getAllIncompleteActionsResponse">
+	   <xs:complexType>
+            <xs:sequence>
+                <xs:element name="action" type="actions:action" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+	</xs:element>
+
+    <!-- Action Domain Object Schema definition -->
+    <xs:complexType name="action">
+    	<xs:sequence>
+    		<xs:element name="details" type="xs:string"/>
+    		<xs:element name="requiredBy" type="xs:dateTime"/>
+    		<xs:element name="owner" type="xs:string"/>
+    	</xs:sequence>
+    </xs:complexType>
+</xs:schema>

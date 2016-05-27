@@ -1,6 +1,7 @@
 package com.akash.spring.crm.model;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -41,15 +42,15 @@ public class Call implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getCallTime() {
-        return callTime;
-    }
-
     public void setCallTime(LocalDateTime callTime) {
-        this.callTime = callTime;
-    }
+		this.callTime = callTime;
+	}
 
-    public String getCallNotes() {
+    public LocalDateTime getCallTime() {
+		return callTime;
+	}
+
+	public String getCallNotes() {
         return callNotes;
     }
 
