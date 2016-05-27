@@ -57,6 +57,6 @@
 
 	<servlet-mapping>
 		<servlet-name>spring-ws</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/webservices/*</url-pattern>
 	</servlet-mapping>
 </web-app>

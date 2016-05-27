@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:tns="http://www.akash.com/crm/customers"
+           xmlns:customers="http://www.akash.com/crm/customers"
            targetNamespace="http://www.akash.com/crm/customers">
 
 	<!-- CustomerService.findCustomerById(String id) Request/Response Pattern -->
     <xs:element name="getCustomerByIdRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="tns:customerIdType"/>
+                <xs:element name="id" type="customers:customerIdType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -15,7 +15,7 @@
     <xs:element name="getCustomerByIdResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="customer" type="tns:customer"/>
+                <xs:element name="customer" type="customers:customer"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -24,7 +24,7 @@
 	<xs:element name="addCustomerRequest">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="customer" type="tns:customer"/>
+				<xs:element name="customer" type="customers:customer"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -33,7 +33,7 @@
 	<xs:element name="deleteCustomerRequest">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="customer" type="tns:customer"/>
+				<xs:element name="customer" type="customers:customer"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -42,7 +42,7 @@
 	<xs:element name="updateCustomerRequest">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="customer" type="tns:customer"/>
+				<xs:element name="customer" type="customers:customer"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -59,7 +59,7 @@
     <xs:element name="getCustomerByCompanyNameResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="customer" type="tns:customer" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="customer" type="customers:customer" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -68,7 +68,7 @@
     <xs:element name="getFullCustomerDetailsRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="tns:customerIdType"/>
+                <xs:element name="id" type="customers:customerIdType"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -76,7 +76,7 @@
     <xs:element name="getFullCustomerDetailsResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="customer" type="tns:customer"/>
+                <xs:element name="customer" type="customers:customer"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -84,7 +84,7 @@
 	<!-- Customer Domain Object Schema Definition -->
     <xs:complexType name="customer">
         <xs:sequence>
-            <xs:element name="id" type="tns:customerIdType"></xs:element>
+            <xs:element name="id" type="customers:customerIdType"></xs:element>
             <xs:element name="company" type="xs:string"></xs:element>
             <xs:element name="email" type="xs:string"></xs:element>
             <xs:element name="customerNotes" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
