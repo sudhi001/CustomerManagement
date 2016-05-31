@@ -3,7 +3,6 @@ package com.akash.spring.crm.services;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-import com.akash.spring.crm.services.action.ActionService;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
 
@@ -35,9 +33,6 @@ public class InitDBService {
     @Autowired 
     private CallService callService;
     
-    @Autowired
-    private ActionService actionService;
-
     @PostConstruct
     public void init() {
         Customer customer = new Customer();

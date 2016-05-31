@@ -71,39 +71,8 @@
 			<artifactId>spring-xml</artifactId>
 			<version>LATEST</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
-			<artifactId>jaxws-spring</artifactId>
-			<version>1.9</version>
-		</dependency>
-
-		<!-- http://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.2.11</version>
-		</dependency>
-
-		<!-- http://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core -->
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-core</artifactId>
-			<version>2.2.11</version>
-		</dependency>
-
-		<!-- http://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl -->
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.2.11</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>2.0.2</version>
-		</dependency>
+		
+		<!-- JavaEE -->
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -124,6 +93,20 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		
+		<!-- Spring and JAX-WS Bridge -->
+		<dependency>
+			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+			<artifactId>jaxws-spring</artifactId>
+			<version>1.9</version>
+		</dependency>
+		
+		<!-- SOAP WS and WSDL related -->
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>saxon-dom</artifactId>
@@ -134,21 +117,16 @@
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.3</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/org.apache.xmlbeans/xmlbeans-xpath -->
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
 			<artifactId>xmlbeans-xpath</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-
-		<!-- http://mvnrepository.com/artifact/wsdl4j/wsdl4j-qname -->
 		<dependency>
 			<groupId>wsdl4j</groupId>
 			<artifactId>wsdl4j-qname</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/org.apache.ws.commons.schema/XmlSchema -->
-		<!-- http://mvnrepository.com/artifact/org.apache.ws.xmlschema/xmlschema-core -->
 		<dependency>
 			<groupId>org.apache.ws.xmlschema</groupId>
 			<artifactId>xmlschema-core</artifactId>
@@ -243,6 +221,8 @@
 				<version>3.5</version>
 				<configuration>
 					<verbose>false</verbose>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 		</plugins>
