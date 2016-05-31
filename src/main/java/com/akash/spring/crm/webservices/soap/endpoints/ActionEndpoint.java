@@ -1,4 +1,4 @@
-package com.akash.spring.crm.webservices;
+package com.akash.spring.crm.webservices.soap.endpoints;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.akash.spring.crm.exceptions.RecordNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.services.action.ActionService;
-import com.akash.spring.crm.xml.actions.ActionXML;
-import com.akash.spring.crm.xml.actions.GetAllIncompleteActionsRequest;
-import com.akash.spring.crm.xml.actions.GetAllIncompleteActionsResponse;
-import com.akash.spring.crm.xml.actions.RecordActionRequest;
+import com.akash.spring.crm.webservices.soap.xml.actions.ActionXML;
+import com.akash.spring.crm.webservices.soap.xml.actions.GetAllIncompleteActionsRequest;
+import com.akash.spring.crm.webservices.soap.xml.actions.GetAllIncompleteActionsResponse;
+import com.akash.spring.crm.webservices.soap.xml.actions.RecordActionRequest;
 
 /**
  * Created by Akash Agarwal on 5/24/2016.

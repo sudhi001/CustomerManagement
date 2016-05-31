@@ -6,7 +6,7 @@
 //
 
 
-package com.akash.spring.crm.xml.customers;
+package com.akash.spring.crm.webservices.soap.xml.customers;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -65,7 +65,7 @@ public class GetCustomerByIdResponse {
     	this.customer.setEmail(customer.getEmail());
     	this.customer.setId(customer.getId());
     	for (Call call : customer.getCalls()) {
-    		com.akash.spring.crm.xml.calls.Call callXML = new com.akash.spring.crm.xml.calls.Call();
+    		com.akash.spring.crm.webservices.soap.xml.calls.CallXML callXML = new com.akash.spring.crm.webservices.soap.xml.calls.CallXML();
     		callXML.setCallNotes(call.getCallNotes());
     		LocalDateTime callTime = call.getCallTime();
     		GregorianCalendar gcal = GregorianCalendar.from(callTime.atZone(ZoneId.systemDefault()));

@@ -1,4 +1,4 @@
-package com.akash.spring.crm.webservices;
+package com.akash.spring.crm.webservices.soap.endpoints;
 
 import java.util.List;
 
@@ -11,16 +11,16 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
-import com.akash.spring.crm.xml.customers.AddCustomerRequest;
-import com.akash.spring.crm.xml.customers.CustomerXML;
-import com.akash.spring.crm.xml.customers.DeleteCustomerRequest;
-import com.akash.spring.crm.xml.customers.GetCustomerByCompanyNameRequest;
-import com.akash.spring.crm.xml.customers.GetCustomerByCompanyNameResponse;
-import com.akash.spring.crm.xml.customers.GetCustomerByIdRequest;
-import com.akash.spring.crm.xml.customers.GetCustomerByIdResponse;
-import com.akash.spring.crm.xml.customers.GetFullCustomerDetailsRequest;
-import com.akash.spring.crm.xml.customers.GetFullCustomerDetailsResponse;
-import com.akash.spring.crm.xml.customers.UpdateCustomerRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.AddCustomerRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.CustomerXML;
+import com.akash.spring.crm.webservices.soap.xml.customers.DeleteCustomerRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetCustomerByCompanyNameRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetCustomerByCompanyNameResponse;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetCustomerByIdRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetCustomerByIdResponse;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetFullCustomerDetailsRequest;
+import com.akash.spring.crm.webservices.soap.xml.customers.GetFullCustomerDetailsResponse;
+import com.akash.spring.crm.webservices.soap.xml.customers.UpdateCustomerRequest;
 
 /**
  * Created by Akash Agarwal on 5/24/2016.

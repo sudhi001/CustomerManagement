@@ -6,7 +6,7 @@
 //
 
 
-package com.akash.spring.crm.xml.customers;
+package com.akash.spring.crm.webservices.soap.xml.customers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.akash.spring.crm.xml.calls.Call;
+import com.akash.spring.crm.webservices.soap.xml.calls.CallXML;
 
 
 /**
@@ -61,7 +61,7 @@ public class CustomerXML {
     protected String email;
     protected String customerNotes;
     protected String telephone;
-    protected List<Call> calls;
+    protected List<CallXML> calls;
 
     /**
      * Gets the value of the id property.
@@ -201,13 +201,13 @@ public class CustomerXML {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Call }
+     * {@link CallXML }
      * 
      * 
      */
-    public List<Call> getCalls() {
+    public List<CallXML> getCalls() {
         if (calls == null) {
-            calls = new ArrayList<Call>();
+            calls = new ArrayList<CallXML>();
         }
         return this.calls;
     }

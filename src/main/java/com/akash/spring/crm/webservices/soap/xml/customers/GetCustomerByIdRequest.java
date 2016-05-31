@@ -6,7 +6,7 @@
 //
 
 
-package com.akash.spring.crm.xml.customers;
+package com.akash.spring.crm.webservices.soap.xml.customers;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="companyName" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="id" type="{http://www.akash.com/crm/customers}customerIdType"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,36 +36,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "companyName"
+    "id"
 })
-@XmlRootElement(name = "getCustomerByCompanyNameRequest")
-public class GetCustomerByCompanyNameRequest {
+@XmlRootElement(name = "getCustomerByIdRequest")
+public class GetCustomerByIdRequest {
 
     @XmlElement(required = true)
-    protected String companyName;
+    protected String id;
 
     /**
-     * Gets the value of the companyName property.
+     * Gets the value of the id property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getCompanyName() {
-        return companyName;
+    public String getId() {
+        return id;
     }
 
     /**
-     * Sets the value of the companyName property.
+     * Sets the value of the id property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setCompanyName(String value) {
-        this.companyName = value;
+    public void setId(String value) {
+        this.id = value;
     }
 
 }

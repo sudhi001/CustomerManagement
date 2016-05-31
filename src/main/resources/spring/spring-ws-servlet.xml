@@ -7,10 +7,10 @@
           http://www.springframework.org/schema/web-services http://www.springframework.org/schema/web-services/web-services-2.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.akash.spring.crm.webservices"/>
+    <context:component-scan base-package="com.akash.spring.crm.webservices.soap"/>
     <sws:annotation-driven/>
-
-	<!-- 
+   
+   <!-- 
     <import resource="datasource-config.xml"/>
      
     <sws:dynamic-wsdl id="customers" portTypeName="CustomerService" locationUri="/CustomerService"
@@ -30,8 +30,7 @@
      				   targetNamespace="http://www.akash.com/crm/actions">
      	<sws:xsd location="/WEB-INF/ActionSchema.xsd"/>
      </sws:dynamic-wsdl>
-      -->
-    <!--      --> 
+    --> 
     <sws:static-wsdl location="/WEB-INF/crm.wsdl" id="crm"/>
-
+ 
 </beans>

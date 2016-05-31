@@ -6,13 +6,23 @@
 //
 
 
-package com.akash.spring.crm.xml.customers;
+package com.akash.spring.crm.webservices.soap.xml.customers;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.GregorianCalendar;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import com.akash.spring.crm.model.Call;
+import com.akash.spring.crm.model.Customer;
 
 
 /**
@@ -38,12 +48,41 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "customer"
 })
-@XmlRootElement(name = "addCustomerRequest")
-public class AddCustomerRequest {
+@XmlRootElement(name = "getFullCustomerDetailsResponse")
+public class GetFullCustomerDetailsResponse {
 
     @XmlElement(required = true)
     protected CustomerXML customer;
 
+    public GetFullCustomerDetailsResponse() {
+		// TODO Auto-generated constructor stub
+	}
+
+    public GetFullCustomerDetailsResponse(Customer customer) {
+    	this.customer = new CustomerXML();
+    	this.customer.setCompany(customer.getCompany());
+    	this.customer.setCustomerNotes(customer.getCustomerNotes());
+    	this.customer.setEmail(customer.getEmail());
+    	this.customer.setId(customer.getId());
+    	for (Call call : customer.getCalls()) {
+    		com.akash.spring.crm.webservices.soap.xml.calls.CallXML callXML = new com.akash.spring.crm.webservices.soap.xml.calls.CallXML();
+    		callXML.setCallNotes(call.getCallNotes());
+    		LocalDateTime callTime = call.getCallTime();
+    		GregorianCalendar gcal = GregorianCalendar.from(callTime.atZone(ZoneId.systemDefault()));
+    		XMLGregorianCalendar xgcal = null;
+			try {
+				xgcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
+			} catch (DatatypeConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		callXML.setCallTime(xgcal);
+    		this.customer.getCalls().add(callXML);
+    		callXML = null;
+    	}
+    	this.customer.setTelephone(customer.getTelephone());
+    }
+    
     /**
      * Gets the value of the customer property.
      * 

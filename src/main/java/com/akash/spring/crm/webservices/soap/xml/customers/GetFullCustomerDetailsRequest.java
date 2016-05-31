@@ -6,7 +6,7 @@
 //
 
 
-package com.akash.spring.crm.xml.customers;
+package com.akash.spring.crm.webservices.soap.xml.customers;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -38,8 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "id"
 })
-@XmlRootElement(name = "getCustomerByIdRequest")
-public class GetCustomerByIdRequest {
+@XmlRootElement(name = "getFullCustomerDetailsRequest")
+public class GetFullCustomerDetailsRequest {
 
     @XmlElement(required = true)
     protected String id;

@@ -6,7 +6,6 @@
 
 	<xs:import namespace="http://www.akash.com/crm/calls" schemaLocation="CallSchema.xsd"/>
 	
-	
 	<!-- CustomerService.findCustomerById(String id) Request/Response Pattern -->
     <xs:element name="getCustomerByIdRequest">
         <xs:complexType>

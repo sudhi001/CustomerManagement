@@ -6,7 +6,7 @@
 //
 
 
-package com.akash.spring.crm.xml.actions;
+package com.akash.spring.crm.webservices.soap.xml.actions;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
