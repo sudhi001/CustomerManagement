@@ -35,7 +35,6 @@ public class ActionEndpoint {
     	try {
     		actions = actionService.getAllIncompleteActions(owner);
 		} catch (RecordNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	GetAllIncompleteActionsResponse response = new GetAllIncompleteActionsResponse(actions);

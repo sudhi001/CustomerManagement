@@ -1,5 +1,6 @@
 package com.akash.spring.crm.webservices.soap.endpoints;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
+import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
+import com.akash.spring.crm.webservices.soap.xml.calls.CallXML;
 import com.akash.spring.crm.webservices.soap.xml.customers.AddCustomerRequest;
 import com.akash.spring.crm.webservices.soap.xml.customers.CustomerXML;
 import com.akash.spring.crm.webservices.soap.xml.customers.DeleteCustomerRequest;
@@ -64,6 +67,16 @@ public class CustomerEndpoint {
     	customer.setCustomerNotes(customerXML.getCustomerNotes());
     	customer.setEmail(customerXML.getEmail());
     	customer.setTelephone(customerXML.getTelephone());
+    	List<Call> callList = new ArrayList<>();
+    	for (CallXML callXML : customerXML.getCalls()) {
+    		Call call = new Call();
+    		call.setCallNotes(callXML.getCallNotes());
+    		call.setCallTime(callXML.getCallTime().toGregorianCalendar().toZonedDateTime().toLocalDateTime());
+    		call.setId(callXML.getId());
+    		callList.add(call);
+    		call = null;
+    	}
+    	customer.setCalls(callList);
     	try {
 			customerService.deleteCustomer(customer);
 		} catch (CustomerNotFoundException e) {

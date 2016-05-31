@@ -1,14 +1,17 @@
 package com.akash.spring.crm.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
 import com.akash.spring.crm.dao.CustomerDAO;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 /**
  * Created by Akash Agarwal on 5/2/2016.
@@ -17,9 +20,11 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class CustomerDAOImpl implements CustomerDAO{
 
+	Logger log = Logger.getLogger(CustomerDAOImpl.class);
+	
     @PersistenceContext
     private EntityManager entityManager;
-
+  
     /**
      * Creates a new customer record.
      *
@@ -65,7 +70,7 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param customer
      */
     public void update(Customer customer) throws CustomerNotFoundException {
-        entityManager.merge(customer);
+        this.entityManager.merge(customer);
     }
 
     /**
@@ -111,7 +116,6 @@ public class CustomerDAOImpl implements CustomerDAO{
      */
     public void addCall(Call call, String id) throws CustomerNotFoundException {
         Customer customer = this.entityManager.find(Customer.class, id);
-        System.out.print(customer.toString());
         customer.addCall(call);
     }
 }
