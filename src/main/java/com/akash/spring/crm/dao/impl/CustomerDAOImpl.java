@@ -3,6 +3,7 @@ package com.akash.spring.crm.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.apache.log4j.Logger;
@@ -103,9 +104,13 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param id
      */
     public Customer getFullCustomerDetail(String id) throws CustomerNotFoundException {
-        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=:id")
-                .setParameter("id", id)
-                .getSingleResult();
+    	try {
+	        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=:id")
+	                .setParameter("id", id)
+	                .getSingleResult();
+    	} catch (NoResultException e) {
+    		throw new CustomerNotFoundException();
+    	}
     }
 
     /**
