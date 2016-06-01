@@ -71,7 +71,7 @@
 			<artifactId>spring-xml</artifactId>
 			<version>LATEST</version>
 		</dependency>
-		
+
 		<!-- JavaEE -->
 		<dependency>
 			<groupId>javax</groupId>
@@ -93,14 +93,14 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<!-- Spring and JAX-WS Bridge -->
 		<dependency>
 			<groupId>org.jvnet.jax-ws-commons.spring</groupId>
 			<artifactId>jaxws-spring</artifactId>
 			<version>1.9</version>
 		</dependency>
-		
+
 		<!-- SOAP WS and WSDL related -->
 		<dependency>
 			<groupId>org.jdom</groupId>
@@ -131,6 +131,26 @@
 			<groupId>org.apache.ws.xmlschema</groupId>
 			<artifactId>xmlschema-core</artifactId>
 			<version>2.2.1</version>
+		</dependency>
+
+		<!-- Jackson Dependencies -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>LATEST</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>LATEST</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>LATEST</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- JUnit -->

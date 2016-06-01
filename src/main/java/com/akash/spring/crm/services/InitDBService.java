@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,6 +60,6 @@ public class InitDBService {
 			e.printStackTrace();
 		}
 
-        DatabaseManagerSwing.main(new String[]{"--url", "jdbc:hsqldb:mem:crm", "--user", "sa", "--password", ""});
+     //   DatabaseManagerSwing.main(new String[]{"--url", "jdbc:hsqldb:mem:crm", "--user", "sa", "--password", ""});
     }
 }
