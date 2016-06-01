@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Bean holding customer details.
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
  * Created by Akash Agarwal on 5/2/2016.
  */
 @Entity
+@XmlRootElement// (For REST WebService)
 public class Customer implements Serializable {
 
     /**
