@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -53,7 +52,7 @@ public class Customer implements Serializable {
     /**
      * Calls made to the customer
      */
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(/*fetch = FetchType.EAGER, */cascade = CascadeType.ALL)
     private List<Call> calls;
 
     public String getId() {

@@ -8,20 +8,12 @@
 
 package com.akash.spring.crm.webservices.soap.xml.customers;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.GregorianCalendar;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
 
-import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
 
 
@@ -64,22 +56,6 @@ public class GetCustomerByIdResponse {
     	this.customer.setCustomerNotes(customer.getCustomerNotes());
     	this.customer.setEmail(customer.getEmail());
     	this.customer.setId(customer.getId());
-    	for (Call call : customer.getCalls()) {
-    		com.akash.spring.crm.webservices.soap.xml.calls.CallXML callXML = new com.akash.spring.crm.webservices.soap.xml.calls.CallXML();
-    		callXML.setCallNotes(call.getCallNotes());
-    		LocalDateTime callTime = call.getCallTime();
-    		GregorianCalendar gcal = GregorianCalendar.from(callTime.atZone(ZoneId.systemDefault()));
-    		XMLGregorianCalendar xgcal = null;
-			try {
-				xgcal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
-			} catch (DatatypeConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		callXML.setCallTime(xgcal);
-    		this.customer.getCalls().add(callXML);
-    		callXML = null;
-    	}
     	this.customer.setTelephone(customer.getTelephone());
     }
     

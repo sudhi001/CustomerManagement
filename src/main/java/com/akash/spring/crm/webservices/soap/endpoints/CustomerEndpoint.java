@@ -98,6 +98,16 @@ public class CustomerEndpoint {
     	customer.setCustomerNotes(customerXML.getCustomerNotes());
     	customer.setEmail(customerXML.getEmail());
     	customer.setTelephone(customerXML.getTelephone());
+     	List<Call> callList = new ArrayList<>();
+    	for (CallXML callXML : customerXML.getCalls()) {
+    		Call call = new Call();
+    		call.setCallNotes(callXML.getCallNotes());
+    		call.setCallTime(callXML.getCallTime().toGregorianCalendar().toZonedDateTime().toLocalDateTime());
+    		call.setId(callXML.getId());
+    		callList.add(call);
+    		call = null;
+    	}
+    	customer.setCalls(callList);
     	try {
 			customerService.updateCustomer(customer);
 		} catch (CustomerNotFoundException e) {

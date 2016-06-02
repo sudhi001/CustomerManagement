@@ -1,5 +1,7 @@
 package com.akash.spring.crm.webservices.rest.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Customer;
 import com.akash.spring.crm.services.customer.CustomerService;
 import com.akash.spring.crm.webservices.rest.error.ErrorInformation;
+import com.akash.spring.crm.webservices.rest.model.CustomerCollectionForRest;
 
 @RestController
 public class CustomerRestController {
@@ -37,5 +40,21 @@ public class CustomerRestController {
 	// @ResponseBody Not required if using @RestController
 	public Customer findCustomerById(@PathVariable String id) throws CustomerNotFoundException{
 		return customerService.getFullCustomerDetail(id);
+	}
+	
+	@RequestMapping(value = "/customerlist")
+	public CustomerCollectionForRest getAllCustomers() {
+		List<Customer> customers = null;
+		try {
+			customers = customerService.getAllCustomers();
+			for (Customer customer : customers) {
+				customer.setCalls(null);
+			}
+		} catch (CustomerNotFoundException e) {
+			e.printStackTrace();
+		}
+		CustomerCollectionForRest customerRest = new CustomerCollectionForRest();
+		customerRest.setCustomers(customers);
+		return customerRest;
 	}
 }
