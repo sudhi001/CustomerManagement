@@ -19,4 +19,19 @@ public interface CallService {
      */
     void recordCall(String customerID, Call call, Collection<Action> actions)
             throws CustomerNotFoundException;
+
+    /**
+     * Creates a new Call
+     */
+    void create(Call call);
+
+    /**
+     * Remove a Call
+     */
+    void remove(Call call);
+
+    /**
+     * Update a Call
+     */
+    void update(Call call);
 }

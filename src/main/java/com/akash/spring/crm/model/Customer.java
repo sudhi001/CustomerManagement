@@ -1,13 +1,13 @@
 package com.akash.spring.crm.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Bean holding customer details.
@@ -27,6 +27,8 @@ public class Customer implements Serializable {
      * Uniqure CustomerID provided.
      */
     @Id
+    @GenericGenerator(name = "id_gen", strategy = "com.akash.spring.crm.generator.IdGenerator")
+    @GeneratedValue(generator = "id_gen")
     private String id;
 
     /**
@@ -52,8 +54,8 @@ public class Customer implements Serializable {
     /**
      * Calls made to the customer
      */
-    @OneToMany(/*fetch = FetchType.EAGER, */cascade = CascadeType.ALL)
-    private List<Call> calls;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Call> calls = new ArrayList<>();
 
     public String getId() {
         return id;

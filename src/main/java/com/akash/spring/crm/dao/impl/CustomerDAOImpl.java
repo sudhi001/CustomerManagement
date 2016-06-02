@@ -1,18 +1,16 @@
 package com.akash.spring.crm.dao.impl;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
-
 import com.akash.spring.crm.dao.CustomerDAO;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * Created by Akash Agarwal on 5/2/2016.

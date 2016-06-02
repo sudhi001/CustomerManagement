@@ -1,5 +1,6 @@
 package com.akash.spring.crm.services.calls.impl;
 
+import com.akash.spring.crm.dao.CallDAO;
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
@@ -25,10 +26,43 @@ public class CallServiceImpl implements CallService {
     @Autowired
     private ActionService actionService;
 
+    @Autowired
+    private CallDAO callDAO;
+
     public void recordCall(String customerID, Call call, Collection<Action> actions) throws CustomerNotFoundException {
         customerService.recordCall(customerID, call);
         for (Action action : actions) {
             actionService.recordAction(action);
         }
+    }
+
+    /**
+     * Creates a new Call
+     *
+     * @param call
+     */
+    @Override
+    public void create(Call call) {
+        this.callDAO.create(call);
+    }
+
+    /**
+     * Remove a Call
+     *
+     * @param call
+     */
+    @Override
+    public void remove(Call call) {
+        this.callDAO.remove(call);
+    }
+
+    /**
+     * Update a Call
+     *
+     * @param call
+     */
+    @Override
+    public void update(Call call) {
+        this.update(call);
     }
 }
