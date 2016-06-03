@@ -40,6 +40,7 @@ public class InitDBService {
         customer.setEmail("customer@gmail.com");
         customer.setCustomerNotes("Hellocustomer");
         customer.setTelephone("333333");
+//        customer.setId("1");
         customerService.addCustomer(customer);
         
         Customer customer2 = new Customer();
@@ -47,6 +48,7 @@ public class InitDBService {
         customer2.setEmail("customer2@gmail.com");
         customer2.setCustomerNotes("Hellocustomer2");
         customer2.setTelephone("44444444");
+//        customer2.setId("2");
         customerService.addCustomer(customer2);
         
         Customer customer3 = new Customer();
@@ -54,6 +56,7 @@ public class InitDBService {
         customer3.setEmail("customer3@gmail.com");
         customer3.setCustomerNotes("Hellocustomer3");
         customer3.setTelephone("555555");
+//        customer3.setId("3");
         customerService.addCustomer(customer3);
         
         Customer customer4 = new Customer();
@@ -61,6 +64,7 @@ public class InitDBService {
         customer4.setEmail("customer4@gmail.com");
         customer4.setCustomerNotes("Hellocustomer4");
         customer4.setTelephone("66666");
+//        customer4.setId("4");
         customerService.addCustomer(customer4);
 
         Action action = new Action();
@@ -112,7 +116,7 @@ public class InitDBService {
         customer5.setEmail("customer5@gmail.com");
         customer5.setCustomerNotes("Hellocustomer5");
         customer5.setTelephone("333333");
-
+//        customer5.setId("5");
         Call call5 = new Call();
         call5.setCallNotes("saying customer5");
         call5.setCallTime(LocalDateTime.now());

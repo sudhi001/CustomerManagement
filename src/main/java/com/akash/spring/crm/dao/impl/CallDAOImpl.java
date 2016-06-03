@@ -1,10 +1,12 @@
 package com.akash.spring.crm.dao.impl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+
 import com.akash.spring.crm.dao.CallDAO;
 import com.akash.spring.crm.model.Call;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
-import org.springframework.stereotype.Repository;
 
 /**
  * Created by Akash Agarwal on 6/2/2016.
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CallDAOImpl implements CallDAO {
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
+	@PersistenceContext
+    private EntityManager entityManager;
 
     /**
      * Creates a new Call
@@ -22,7 +24,7 @@ public class CallDAOImpl implements CallDAO {
      */
     @Override
     public void create(Call call) {
-        this.hibernateTemplate.save(call);
+        this.entityManager.persist(call);
     }
 
     /**
@@ -32,8 +34,8 @@ public class CallDAOImpl implements CallDAO {
      */
     @Override
     public void remove(Call call) {
-        call = this.hibernateTemplate.merge(call);
-        this.hibernateTemplate.delete(call);
+        call = this.entityManager.merge(call);
+        this.entityManager.remove(call);
     }
 
     /**
@@ -43,6 +45,6 @@ public class CallDAOImpl implements CallDAO {
      */
     @Override
     public void update(Call call) {
-        this.hibernateTemplate.merge(call);
+        this.entityManager.merge(call);
     }
 }

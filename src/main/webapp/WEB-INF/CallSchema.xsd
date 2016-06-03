@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:actions="http://www.akash.com/crm/actions"
            xmlns:calls="http://www.akash.com/crm/calls"
-           xmlns:customers="http://www.akash.com/crm/customers" 
            targetNamespace="http://www.akash.com/crm/calls">
    
-	<xs:import namespace="http://www.akash.com/crm/actions" schemaLocation="ActionSchema.xsd"/>		
-   
     <!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
-    <xs:element name="recordCallRequest">
+    <xs:element name="createCall">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="id" type="xs:string"/>
                 <xs:element name="call" type="calls:call"/>
-                <xs:element name="actions" type="actions:action" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
+    
+	<!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
+    <xs:element name="removeCall">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="call" type="calls:call"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
+    <xs:element name="updateCall">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="call" type="calls:call"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
     <!-- Call Domain Object Schema definition -->
     <xs:complexType name="call">
     	<xs:sequence>
