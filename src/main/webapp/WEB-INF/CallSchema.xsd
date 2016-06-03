@@ -3,8 +3,8 @@
            xmlns:calls="http://www.akash.com/crm/calls"
            targetNamespace="http://www.akash.com/crm/calls">
    
-    <!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
-    <xs:element name="createCall">
+    <!-- CallService.createCall(Call call) Request -->
+    <xs:element name="createCallRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="call" type="calls:call"/>
@@ -12,8 +12,8 @@
         </xs:complexType>
     </xs:element>
     
-	<!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
-    <xs:element name="removeCall">
+	<!-- CallService.removeCall(Call call) Request -->
+    <xs:element name="removeCallRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="call" type="calls:call"/>
@@ -21,8 +21,8 @@
         </xs:complexType>
     </xs:element>
     
-    <!-- CallService.recordCall(String customerID, Call call, Collection<Action> actions) Request -->
-    <xs:element name="updateCall">
+    <!-- CallService.updateCall(Call call) Request -->
+    <xs:element name="updateCallRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="call" type="calls:call"/>
