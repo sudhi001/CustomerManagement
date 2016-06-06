@@ -6,6 +6,7 @@ import com.akash.spring.crm.services.customer.CustomerService;
 import com.akash.spring.crm.webservices.rest.error.ErrorInformation;
 import com.akash.spring.crm.webservices.rest.model.CustomerCollectionForRest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import javax.persistence.OptimisticLockException;
 import javax.servlet.http.HttpServletRequest;
+
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -87,9 +91,13 @@ public class CustomerRestController {
 	 * @return
 	 */
 	@RequestMapping(value = "/customers", method = RequestMethod.POST)
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public Customer createCustomer(@RequestBody Customer customer) {
-		return customerService.addCustomer(customer);
+	public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+		Customer newCustomer = customerService.addCustomer(customer);
+		HttpHeaders headers = new HttpHeaders();
+		URI uri = MvcUriComponentsBuilder.fromMethodName(CustomerRestController.class, "findCustomerById", newCustomer.getId())
+							   .build().toUri();
+		headers.setLocation(uri);
+		return new ResponseEntity<Customer>(newCustomer, headers, HttpStatus.CREATED);
 	}
 	
 	/**
