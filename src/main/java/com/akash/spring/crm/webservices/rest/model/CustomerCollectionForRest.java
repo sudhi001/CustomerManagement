@@ -5,10 +5,12 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.akash.spring.crm.model.Customer;
 
 @XmlRootElement(name = "customers")
-public class CustomerCollectionForRest {
+public class CustomerCollectionForRest extends ResourceSupport{
 
 	private List<Customer> customers;
 

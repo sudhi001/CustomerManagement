@@ -9,9 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.hateoas.ResourceSupport;
 
 
 /**
@@ -21,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @XmlRootElement// (For REST WebService)
-public class Customer implements Serializable {
+public class Customer extends ResourceSupport implements Serializable {
 
     /**
 	 * 
@@ -39,6 +42,8 @@ public class Customer implements Serializable {
     /**
      * Customer's company name
      */
+    @NotNull
+    @Min(1)
     private String company;
 
     /**
@@ -54,6 +59,7 @@ public class Customer implements Serializable {
     /**
      * Customer's associated notes
      */
+    @NotNull
     private String customerNotes;
 
     /**
