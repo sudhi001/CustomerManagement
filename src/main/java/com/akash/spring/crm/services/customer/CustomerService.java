@@ -16,7 +16,7 @@ public interface CustomerService {
     /**
      * Takes a customer domain object and saves it in the database
      */
-    void addCustomer(Customer customer);
+    Customer addCustomer(Customer customer);
 
     /**
      * The specified customer is updated in the database.

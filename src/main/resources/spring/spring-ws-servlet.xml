@@ -17,8 +17,7 @@
                       <sws:xsd location="/WEB-INF/CallSchema.xsd"/>
         			  <sws:xsd location="/WEB-INF/CustomerSchema.xsd"/>
     </sws:dynamic-wsdl>
- --> 
-    
+
      <sws:dynamic-wsdl id="calls" portTypeName="CallService" locationUri="/CallService"
      				   targetNamespace="http://www.akash.com/crm/calls">
      	<sws:xsd location="/WEB-INF/CallSchema.xsd"/>
@@ -28,7 +27,8 @@
      				   targetNamespace="http://www.akash.com/crm/actions">
      	<sws:xsd location="/WEB-INF/ActionSchema.xsd"/>
      </sws:dynamic-wsdl>
-   
+    --> 
+    
     <sws:static-wsdl location="/WEB-INF/crm.wsdl" id="crm"/>
  
 </beans>

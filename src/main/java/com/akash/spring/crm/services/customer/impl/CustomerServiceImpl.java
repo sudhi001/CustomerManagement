@@ -22,8 +22,9 @@ public class CustomerServiceImpl implements CustomerService{
     @Autowired
     private CustomerDAO dao;
 
-    public void addCustomer(Customer customer) {
+    public Customer addCustomer(Customer customer) {
         dao.create(customer);
+        return customer;
     }
 
     public void updateCustomer(Customer customer) throws CustomerNotFoundException {
