@@ -1,10 +1,10 @@
 package com.akash.spring.crm.dao;
 
+import java.util.List;
+
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-
-import java.util.List;
 
 /**
  * Created by Akash Agarwal on 5/2/2016.
@@ -51,9 +51,9 @@ public interface CustomerDAO {
      * calls associated with this customer
      */
     Customer getFullCustomerDetail(String customerId) throws CustomerNotFoundException;
-
+    
     /**
      * Links the specifed call to the customer in the database.
      */
-    void addCall(Call newCall, String customerId) throws CustomerNotFoundException;
+    List<Call> addCall(Call newCall, String customerId) throws CustomerNotFoundException;
 }

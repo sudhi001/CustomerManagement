@@ -24,8 +24,9 @@ public class CallServiceImpl implements CallService {
      * @param call
      */
     @Override
-    public void create(Call call) {
+    public Call create(Call call) {
         this.callDAO.create(call);
+        return call;
     }
 
     /**
@@ -45,6 +46,6 @@ public class CallServiceImpl implements CallService {
      */
     @Override
     public void update(Call call) {
-        this.update(call);
+        this.callDAO.update(call);
     }
 }

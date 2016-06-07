@@ -1,10 +1,11 @@
 package com.akash.spring.crm.webservices.rest.controllers;
 
-import com.akash.spring.crm.exceptions.CustomerNotFoundException;
-import com.akash.spring.crm.model.Customer;
-import com.akash.spring.crm.services.customer.CustomerService;
-import com.akash.spring.crm.webservices.rest.error.ErrorInformation;
-import com.akash.spring.crm.webservices.rest.model.CustomerCollectionForRest;
+import java.net.URI;
+import java.util.List;
+
+import javax.persistence.OptimisticLockException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,25 +18,33 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import javax.persistence.OptimisticLockException;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import java.net.URI;
-import java.util.List;
+import com.akash.spring.crm.exceptions.CustomerNotFoundException;
+import com.akash.spring.crm.exceptions.RecordNotFoundException;
+import com.akash.spring.crm.model.Action;
+import com.akash.spring.crm.model.Call;
+import com.akash.spring.crm.model.Customer;
+import com.akash.spring.crm.services.action.ActionService;
+import com.akash.spring.crm.services.customer.CustomerService;
+import com.akash.spring.crm.webservices.rest.error.ErrorInformation;
+import com.akash.spring.crm.webservices.rest.model.ActionCollectionForRest;
+import com.akash.spring.crm.webservices.rest.model.CallCollectionForRest;
+import com.akash.spring.crm.webservices.rest.model.CustomerCollectionForRest;
 
 @RestController
 public class CustomerRestController {
 
 	@Autowired
 	private CustomerService customerService;
-
+	
+	@Autowired
+	private ActionService actionService;
+	
 	@Autowired
 	private ErrorInformation errorInformation;
 	
@@ -171,5 +180,27 @@ public class CustomerRestController {
 			customer.setCustomerNotes(customerById.getCustomerNotes());
 		}
 		customerService.updateCustomer(customer);
+	}
+	
+	@RequestMapping(value = "/customer/{id}/calls", method = RequestMethod.POST)
+	public void recordCallForCustomer(@RequestBody Call call, @PathVariable String id) throws CustomerNotFoundException {
+		customerService.recordCall(id, call);
+	}
+
+	@RequestMapping(value = "/customer/{id}/calls", method = RequestMethod.GET)
+	public CallCollectionForRest getCallDetailsForCustomer(@PathVariable String id) throws CustomerNotFoundException {
+		Customer customer = customerService.getFullCustomerDetail(id);
+		List<Call> calls = customer.getCalls();
+		CallCollectionForRest callCollection = new CallCollectionForRest();
+		callCollection.setCallList(calls);
+		return callCollection;
+	}
+	
+	@RequestMapping(value = "/user/{id}/actions", method = RequestMethod.GET)
+	public ActionCollectionForRest getAllIncompleteActionsForUser(@PathVariable String id) throws RecordNotFoundException {
+		List<Action> actions = actionService.getAllIncompleteActions(id);
+		ActionCollectionForRest actionCollection = new ActionCollectionForRest();
+		actionCollection.setActionList(actions);
+		return actionCollection;
 	}
 }

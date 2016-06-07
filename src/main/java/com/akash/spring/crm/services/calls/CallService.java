@@ -11,7 +11,7 @@ public interface CallService {
     /**
      * Creates a new Call
      */
-    void create(Call call);
+    Call create(Call call);
 
     /**
      * Remove a Call

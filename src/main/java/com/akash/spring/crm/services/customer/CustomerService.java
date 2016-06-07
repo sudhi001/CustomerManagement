@@ -1,10 +1,10 @@
 package com.akash.spring.crm.services.customer;
 
+import java.util.List;
+
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
-
-import java.util.List;
 
 /**
  * This interface defines the functionality we want the Customer Management Service

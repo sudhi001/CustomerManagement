@@ -9,8 +9,18 @@
     <!-- Annotations Config -->
     <context:component-scan base-package="com.akash.spring.crm.controllers"/>
     <context:component-scan base-package="com.akash.spring.crm.webservices.rest.*"/>
+    
+    <!-- Date Converter -->
+    <bean id="dateConverter" class="com.akash.spring.crm.webservices.rest.converter.DateConverter"/>
+    
     <!-- To turn on the default message converters -->
-    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+    	<mvc:message-converters register-defaults="true">
+    	 	<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+    	 		<property name="objectMapper" ref="dateConverter"/>
+    	 	</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>
     
     <bean id="contentNegotiationManager"
     	class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">

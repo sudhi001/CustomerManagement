@@ -1,16 +1,17 @@
 package com.akash.spring.crm.services.customer.impl;
 
-import com.akash.spring.crm.dao.CustomerDAO;
-import com.akash.spring.crm.exceptions.CustomerNotFoundException;
-import com.akash.spring.crm.model.Call;
-import com.akash.spring.crm.model.Customer;
-import com.akash.spring.crm.services.customer.CustomerService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.akash.spring.crm.dao.CustomerDAO;
+import com.akash.spring.crm.exceptions.CustomerNotFoundException;
+import com.akash.spring.crm.model.Call;
+import com.akash.spring.crm.model.Customer;
+import com.akash.spring.crm.services.customer.CustomerService;
 
 /**
  * Created by Akash Agarwal on 5/2/2016.
@@ -21,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Autowired
     private CustomerDAO dao;
-
+    
     public Customer addCustomer(Customer customer) {
         dao.create(customer);
         return customer;
@@ -78,10 +79,11 @@ public class CustomerServiceImpl implements CustomerService{
             throw new CustomerNotFoundException();
         }
     }
-
+    
     public void recordCall(String customerId, Call callDetails) throws CustomerNotFoundException {
         try {
-            dao.addCall(callDetails, customerId);
+        	Customer customer = this.getFullCustomerDetail(customerId);
+        	customer.getCalls().add(callDetails);
         } catch (DataAccessException e) {
             throw new CustomerNotFoundException();
         }
