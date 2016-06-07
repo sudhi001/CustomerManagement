@@ -52,7 +52,7 @@ public class GetCustomerByIdResponse {
 		this.customer.setCompany(customer.getCompany());
 		this.customer.setCustomerNotes(customer.getCustomerNotes());
 		this.customer.setEmail(customer.getEmail());
-		this.customer.setId(customer.getId());
+		this.customer.setId(customer.getCid());
 		this.customer.setTelephone(customer.getTelephone());
 	}
 

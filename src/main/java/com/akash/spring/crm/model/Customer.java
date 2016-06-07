@@ -37,7 +37,7 @@ public class Customer extends ResourceSupport implements Serializable {
     @Id
     @GenericGenerator(name = "id_gen", strategy = "com.akash.spring.crm.generator.IdGenerator")
     @GeneratedValue(generator = "id_gen")
-    private String id;
+    private String cid;
 
     /**
      * Customer's company name
@@ -68,12 +68,12 @@ public class Customer extends ResourceSupport implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Call> calls = new ArrayList<>();
 
-    public String getId() {
-        return id;
+    public String getCid() {
+        return cid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+	public void setCid(String cid) {
+        this.cid = cid;
     }
 
     public String getCompany() {
@@ -125,6 +125,6 @@ public class Customer extends ResourceSupport implements Serializable {
 
     @Override
     public String toString() {
-        return this.id + ": " + this.company;
+        return this.cid + ": " + this.company;
     }
 }

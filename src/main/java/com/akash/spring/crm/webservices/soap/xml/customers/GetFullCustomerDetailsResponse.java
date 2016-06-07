@@ -61,7 +61,7 @@ public class GetFullCustomerDetailsResponse {
     	this.customer.setCompany(customer.getCompany());
     	this.customer.setCustomerNotes(customer.getCustomerNotes());
     	this.customer.setEmail(customer.getEmail());
-    	this.customer.setId(customer.getId());
+    	this.customer.setId(customer.getCid());
     	for (Call call : customer.getCalls()) {
     		com.akash.spring.crm.webservices.soap.xml.calls.CallXML callXML = new com.akash.spring.crm.webservices.soap.xml.calls.CallXML();
     		callXML.setCallNotes(call.getCallNotes());

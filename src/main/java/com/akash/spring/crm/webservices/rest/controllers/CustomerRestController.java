@@ -90,7 +90,7 @@ public class CustomerRestController {
 			customer.setCalls(null);
 			// Spring HATEOAS stuff
 			Link link = ControllerLinkBuilder.linkTo(
-					ControllerLinkBuilder.methodOn(CustomerRestController.class).findCustomerById(customer.getId()))
+					ControllerLinkBuilder.methodOn(CustomerRestController.class).findCustomerById(customer.getCid()))
 					.withSelfRel();
 			customer.add(link);
 		}
@@ -124,7 +124,7 @@ public class CustomerRestController {
 		HttpHeaders headers = new HttpHeaders();
 		// HATEOAS stuff
 		URI uri = MvcUriComponentsBuilder
-				.fromMethodName(CustomerRestController.class, "findCustomerById", newCustomer.getId()).build().toUri();
+				.fromMethodName(CustomerRestController.class, "findCustomerById", newCustomer.getCid()).build().toUri();
 		headers.setLocation(uri);
 		return new ResponseEntity<Customer>(newCustomer, headers, HttpStatus.CREATED);
 	}
@@ -163,8 +163,8 @@ public class CustomerRestController {
 			throws CustomerNotFoundException {
 		Customer customerById = customerService.findCustomerById(id);
 
-		if (customer.getId() == null) {
-			customer.setId(customerById.getId());
+		if (customer.getCid() == null) {
+			customer.setCid(customerById.getCid());
 		}
 
 		if (customer.getCustomerNotes() == null) {

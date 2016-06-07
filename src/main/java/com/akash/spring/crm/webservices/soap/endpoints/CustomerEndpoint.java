@@ -46,7 +46,7 @@ public class CustomerEndpoint {
     	CustomerXML customerXML = request.getCustomer();
     	Customer customer = new Customer();
       	customer.setCompany(customerXML.getCompany());
-    	customer.setId(customerXML.getId());
+    	customer.setCid(customerXML.getId());
     	customer.setCustomerNotes(customerXML.getCustomerNotes());
     	customer.setEmail(customerXML.getEmail());
     	customer.setTelephone(customerXML.getTelephone());
@@ -63,7 +63,7 @@ public class CustomerEndpoint {
     	CustomerXML customerXML = request.getCustomer();
     	Customer customer = new Customer();
     	customer.setCompany(customerXML.getCompany());
-    	customer.setId(customerXML.getId());
+    	customer.setCid(customerXML.getId());
     	customer.setCustomerNotes(customerXML.getCustomerNotes());
     	customer.setEmail(customerXML.getEmail());
     	customer.setTelephone(customerXML.getTelephone());
@@ -94,7 +94,7 @@ public class CustomerEndpoint {
     	CustomerXML customerXML = request.getCustomer();
     	Customer customer = new Customer();
     	customer.setCompany(customerXML.getCompany());
-    	customer.setId(customerXML.getId());
+    	customer.setCid(customerXML.getId());
     	customer.setCustomerNotes(customerXML.getCustomerNotes());
     	customer.setEmail(customerXML.getEmail());
     	customer.setTelephone(customerXML.getTelephone());
@@ -149,7 +149,7 @@ public class CustomerEndpoint {
     		CustomerXML customerXML = new CustomerXML();
     		customerXML.setCompany(customer.getCompany());
     		customerXML.setCustomerNotes(customer.getCustomerNotes());
-    		customerXML.setId(customer.getId());
+    		customerXML.setId(customer.getCid());
     		customerXML.setEmail(customer.getEmail());
     		customerXML.setTelephone(customer.getTelephone());
     		response.getCustomer().add(customerXML);

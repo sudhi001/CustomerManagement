@@ -38,10 +38,10 @@ public class CustomerDAOImpl implements CustomerDAO{
      *
      * @param id
      */
-    public Customer getById(String id) throws CustomerNotFoundException {
+    public Customer getById(String cid) throws CustomerNotFoundException {
         try {
-            return (Customer) this.entityManager.createQuery("select customer from Customer as customer where customer.id=:id")
-                    .setParameter("id", id)
+            return (Customer) this.entityManager.createQuery("select customer from Customer as customer where customer.cid=:cid")
+                    .setParameter("cid", cid)
                     .getSingleResult();
         } catch (Exception e) {
             throw new CustomerNotFoundException();
@@ -101,10 +101,10 @@ public class CustomerDAOImpl implements CustomerDAO{
      *
      * @param id
      */
-    public Customer getFullCustomerDetail(String id) throws CustomerNotFoundException {
+    public Customer getFullCustomerDetail(String cid) throws CustomerNotFoundException {
     	try {
-	        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.id=:id")
-	                .setParameter("id", id)
+	        return (Customer) this.entityManager.createQuery("select customer from Customer as customer left join fetch customer.calls where customer.cid=:cid")
+	                .setParameter("cid", cid)
 	                .getSingleResult();
     	} catch (NoResultException e) {
     		throw new CustomerNotFoundException();
@@ -117,8 +117,8 @@ public class CustomerDAOImpl implements CustomerDAO{
      * @param call
      * @param id
      */
-    public void addCall(Call call, String id) throws CustomerNotFoundException {
-        Customer customer = this.entityManager.find(Customer.class, id);
+    public void addCall(Call call, String cid) throws CustomerNotFoundException {
+        Customer customer = this.entityManager.find(Customer.class, cid);
         customer.addCall(call);
     }
 }
