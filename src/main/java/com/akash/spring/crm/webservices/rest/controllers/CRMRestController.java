@@ -37,7 +37,7 @@ import com.akash.spring.crm.webservices.rest.model.CallCollectionForRest;
 import com.akash.spring.crm.webservices.rest.model.CustomerCollectionForRest;
 
 @RestController
-public class CustomerRestController {
+public class CRMRestController {
 
 	@Autowired
 	private CustomerService customerService;
@@ -48,7 +48,7 @@ public class CustomerRestController {
 	@Autowired
 	private ErrorInformation errorInformation;
 	
-	Logger log = Logger.getLogger(CustomerRestController.class);
+	Logger log = Logger.getLogger(CRMRestController.class);
 
 	/**
 	 * Exception Handler CustomerNotFoundException
@@ -76,7 +76,7 @@ public class CustomerRestController {
 	 * @return
 	 * @throws CustomerNotFoundException
 	 */
-	@RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/rest/customer/{id}", method = RequestMethod.GET)
 	// @ResponseBody Not required if using @RestController
 	public Customer findCustomerById(@PathVariable String id) throws CustomerNotFoundException {
 		return customerService.getFullCustomerDetail(id);
@@ -90,7 +90,7 @@ public class CustomerRestController {
 	 * @return
 	 * @throws CustomerNotFoundException 
 	 */
-	@RequestMapping(value = "/customerlist", method = RequestMethod.GET)
+	@RequestMapping(value = "/rest/customerlist", method = RequestMethod.GET)
 	public CustomerCollectionForRest getAllCustomers(@RequestParam(required = false) Integer first,
 			@RequestParam(required = false) Integer last) throws CustomerNotFoundException {
 		List<Customer> customers = null;
@@ -99,7 +99,7 @@ public class CustomerRestController {
 			customer.setCalls(null);
 			// Spring HATEOAS stuff
 			Link link = ControllerLinkBuilder.linkTo(
-					ControllerLinkBuilder.methodOn(CustomerRestController.class).findCustomerById(customer.getCid()))
+					ControllerLinkBuilder.methodOn(CRMRestController.class).findCustomerById(customer.getCid()))
 					.withSelfRel();
 			customer.add(link);
 		}
@@ -108,7 +108,7 @@ public class CustomerRestController {
 			CustomerCollectionForRest page = new CustomerCollectionForRest();
 			page.setCustomers(customers.subList(first - 1, last));
 			// Spring HATEOAS stuff
-			page.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(CustomerRestController.class)
+			page.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(CRMRestController.class)
 					.getAllCustomers(last + 1, last + 10))
 					.withRel("next"));
 			return page;
@@ -127,13 +127,13 @@ public class CustomerRestController {
 	 * @param customer
 	 * @return
 	 */
-	@RequestMapping(value = "/customers", method = RequestMethod.POST)
+	@RequestMapping(value = "/rest/customers", method = RequestMethod.POST)
 	public ResponseEntity<Customer> createCustomer(@RequestBody @Valid Customer customer) {
 		Customer newCustomer = customerService.addCustomer(customer);
 		HttpHeaders headers = new HttpHeaders();
 		// HATEOAS stuff
 		URI uri = MvcUriComponentsBuilder
-				.fromMethodName(CustomerRestController.class, "findCustomerById", newCustomer.getCid()).build().toUri();
+				.fromMethodName(CRMRestController.class, "findCustomerById", newCustomer.getCid()).build().toUri();
 		headers.setLocation(uri);
 		return new ResponseEntity<Customer>(newCustomer, headers, HttpStatus.CREATED);
 	}
@@ -144,7 +144,7 @@ public class CustomerRestController {
 	 * @param id
 	 * @throws CustomerNotFoundException
 	 */
-	@RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/rest/customer/{id}", method = RequestMethod.DELETE)
 	public void deleteCustomer(@PathVariable String id) throws CustomerNotFoundException {
 		Customer customer = customerService.findCustomerById(id);
 		customerService.deleteCustomer(customer);
@@ -156,7 +156,7 @@ public class CustomerRestController {
 	 * @param customer
 	 * @throws CustomerNotFoundException
 	 */
-	@RequestMapping(value = "/customer/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/rest/customer/{id}", method = RequestMethod.PUT)
 	public void updateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
 		customerService.updateCustomer(customer);
 	}
@@ -167,7 +167,7 @@ public class CustomerRestController {
 	 * @param customer
 	 * @throws CustomerNotFoundException
 	 */
-	@RequestMapping(value = "/customer/{id}", method = RequestMethod.PATCH)
+	@RequestMapping(value = "/rest/customer/{id}", method = RequestMethod.PATCH)
 	public void partialUpdateCustomer(@RequestBody Customer customer, @PathVariable String id)
 			throws CustomerNotFoundException {
 		Customer customerById = customerService.findCustomerById(id);
@@ -182,12 +182,12 @@ public class CustomerRestController {
 		customerService.updateCustomer(customer);
 	}
 	
-	@RequestMapping(value = "/customer/{id}/calls", method = RequestMethod.POST)
+	@RequestMapping(value = "/rest/customer/{id}/calls", method = RequestMethod.POST)
 	public void recordCallForCustomer(@RequestBody Call call, @PathVariable String id) throws CustomerNotFoundException {
 		customerService.recordCall(id, call);
 	}
 
-	@RequestMapping(value = "/customer/{id}/calls", method = RequestMethod.GET)
+	@RequestMapping(value = "/rest/customer/{id}/calls", method = RequestMethod.GET)
 	public CallCollectionForRest getCallDetailsForCustomer(@PathVariable String id) throws CustomerNotFoundException {
 		Customer customer = customerService.getFullCustomerDetail(id);
 		List<Call> calls = customer.getCalls();
@@ -196,7 +196,7 @@ public class CustomerRestController {
 		return callCollection;
 	}
 	
-	@RequestMapping(value = "/user/{id}/actions", method = RequestMethod.GET)
+	@RequestMapping(value = "/rest/user/{id}/actions", method = RequestMethod.GET)
 	public ActionCollectionForRest getAllIncompleteActionsForUser(@PathVariable String id) throws RecordNotFoundException {
 		List<Action> actions = actionService.getAllIncompleteActions(id);
 		ActionCollectionForRest actionCollection = new ActionCollectionForRest();

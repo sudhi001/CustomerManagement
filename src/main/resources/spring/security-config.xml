@@ -7,6 +7,12 @@
  
  	<security:http pattern="/web/css/styles.css" security="none"/>
 	
+	<!-- Basic Security for REST Service -->
+	<security:http pattern="/rest/**" create-session="stateless">
+		<security:intercept-url pattern="/rest/**" access="hasRole('ROLE_CRM_USER')"/>
+		<security:http-basic/>
+	</security:http>
+
 	<security:http pattern="/**">
 		<security:intercept-url pattern="/oauth/**" access="hasRole('ROLE_CRM_USER')"/>
 		<security:intercept-url pattern="/login.jsp" access="permitAll()"/>
@@ -16,7 +22,7 @@
 		<security:form-login login-page="/login.jsp"
 							 authentication-failure-url="/login.jsp?error=1"
 							 login-processing-url="/login"/>
-		<security:logout logout-success-url="/customers.html"/>
+		<security:logout logout-success-url="/app/customers.html"/>
 		<security:csrf/>
 	</security:http>
 

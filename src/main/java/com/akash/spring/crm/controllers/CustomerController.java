@@ -20,7 +20,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping("/customers")
+    @RequestMapping("/app/customers")
     public ModelAndView displayCustomers() {
         List<Customer> customerList = null;
         try {
