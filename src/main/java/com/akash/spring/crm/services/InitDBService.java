@@ -5,9 +5,14 @@ import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Action;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
+import com.akash.spring.crm.model.Role;
+import com.akash.spring.crm.model.User;
 import com.akash.spring.crm.services.action.ActionService;
 import com.akash.spring.crm.services.calls.CallService;
 import com.akash.spring.crm.services.customer.CustomerService;
+import com.akash.spring.crm.services.role.RoleService;
+import com.akash.spring.crm.services.user.UserService;
+
 import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Akash Agarwal on 5/23/2016.
@@ -33,14 +40,32 @@ public class InitDBService {
     @Autowired
     private ActionService actionService;
     
+    @Autowired
+    private UserService userService;
+    
+    @Autowired
+    private RoleService roleService;
+    
     @PostConstruct
     public void init() throws CustomerNotFoundException {
+    	Role role = new Role();
+    	role.setName("ROLE_CRM_USER");
+    	roleService.create(role);
+    	
+    	User user = new User();
+    	user.setName("aka");
+    	user.setPassword("akash");
+    	List<Role> roles = new ArrayList<>();
+    	roles.add(role);
+    	user.setEnabled(true);
+    	user.setRoles(roles);
+    	userService.create(user);
+    	
         Customer customer = new Customer();
         customer.setCompany("customer");
         customer.setEmail("customer@gmail.com");
         customer.setCustomerNotes("Hellocustomer");
         customer.setTelephone("333333");
-//        customer.setId("1");
         customerService.addCustomer(customer);
         
         Customer customer2 = new Customer();
@@ -48,7 +73,6 @@ public class InitDBService {
         customer2.setEmail("customer2@gmail.com");
         customer2.setCustomerNotes("Hellocustomer2");
         customer2.setTelephone("44444444");
-//        customer2.setId("2");
         customerService.addCustomer(customer2);
         
         Customer customer3 = new Customer();
@@ -56,7 +80,6 @@ public class InitDBService {
         customer3.setEmail("customer3@gmail.com");
         customer3.setCustomerNotes("Hellocustomer3");
         customer3.setTelephone("555555");
-//        customer3.setId("3");
         customerService.addCustomer(customer3);
         
         Customer customer4 = new Customer();
@@ -64,7 +87,6 @@ public class InitDBService {
         customer4.setEmail("customer4@gmail.com");
         customer4.setCustomerNotes("Hellocustomer4");
         customer4.setTelephone("66666");
-//        customer4.setId("4");
         customerService.addCustomer(customer4);
 
         Action action = new Action();
@@ -116,7 +138,6 @@ public class InitDBService {
         customer5.setEmail("customer5@gmail.com");
         customer5.setCustomerNotes("Hellocustomer5");
         customer5.setTelephone("333333");
-//        customer5.setId("5");
         Call call5 = new Call();
         call5.setCallNotes("saying customer5");
         call5.setCallTime(LocalDateTime.now());
