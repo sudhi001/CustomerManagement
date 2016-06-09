@@ -11,27 +11,25 @@
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  	<security:http pattern="/web/css/styles.css" security="none"/>
+		
+	<!--  setup for the authorization and token endpoints /oauth/authorize and /oauth/token -->
+	<oauth2:authorization-server client-details-service-ref="clientDetailsService">
+		<oauth2:authorization-code/>
+	</oauth2:authorization-server>
+
+	<bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+		<constructor-arg ref="clientDetailsService"/>
+	</bean>
+
+	<oauth2:client-details-service id="clientDetailsService">
+		<oauth2:client client-id="mailer"
+					   authorized-grant-types="authorization_code"
+					   authorities="ROLE_CLIENT"
+					   scope="read"
+					   secret="somesecretkey"/>
+	</oauth2:client-details-service>	
 	
-	<!-- Basic Security for REST Service -->
-	<security:http pattern="/rest/**" create-session="stateless">
-		<security:intercept-url pattern="/rest/**" access="hasRole('ROLE_CRM_USER')"/>
-		<security:http-basic/>
-	</security:http>
-
-	<security:http pattern="/**">
-		<security:intercept-url pattern="/oauth/**" access="hasRole('ROLE_CRM_USER')"/>
-		<security:intercept-url pattern="/login.jsp" access="permitAll()"/>
-		<security:intercept-url pattern="/css/**" access="permitAll()"/>
-		<security:intercept-url pattern="/login" access="permitAll()"/>
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
-		<security:form-login login-page="/login.jsp"
-							 authentication-failure-url="/login.jsp?error=1"
-							 login-processing-url="/login"/>
-		<security:logout logout-success-url="/app/customers.html"/>
-		<security:csrf/>
-	</security:http>
-
-	<security:authentication-manager>
+	<security:authentication-manager id="basicAuthManager">
 		<security:authentication-provider>
 		  <security:jdbc-user-service data-source-ref="dataSource"
                                authorities-by-username-query="select user.name, role.name from user   
@@ -42,16 +40,48 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<!-- Setup for basic OAuth authorization -->
-	<oauth2:authorization-server client-details-service-ref="clientDetailServer">
-		<oauth2:authorization-code/>
-	</oauth2:authorization-server>
+	<!--  a second manager for the electronic clients ONLY -->
+	<security:authentication-manager id="oauthTokenEndpointAuthManager">
+		<security:authentication-provider user-service-ref="clientDetailsUserService"/>	
+	</security:authentication-manager>
 	
-	<oauth2:client-details-service id="clientDetailServer">
-		<oauth2:client client-id="mailer"
-					   authorized-grant-types="authorization_code"
-					   authorities="ROLE_CLIENT"
-					   scope="read"
-					   secret="somesecretkey"/>
-	</oauth2:client-details-service>
+	<!-- OAuth helper beans -->
+	<bean id="oauthTokenEntry" 
+		class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint"/>
+	<oauth2:resource-server id="oauthFilter"/>
+	<bean id="expressionHandler" 
+		class="org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler"/>
+
+	<!--  the settings for our REST service -->
+	<security:http pattern="/rest/**" create-session="stateless" entry-point-ref="oauthTokenEntry">
+		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read')"/>	
+		<security:custom-filter ref="oauthFilter" before="PRE_AUTH_FILTER"/>
+		<security:expression-handler ref="expressionHandler"/>
+	</security:http>
+	
+	<!-- specific settings for the token endpoint -->
+	<security:http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="oauthTokenEndpointAuthManager">
+	
+		<security:intercept-url pattern="/oauth/token" access="hasRole('ROLE_CLIENT')"/>
+		<security:http-basic/>
+		<security:csrf disabled="true"/>
+	
+	</security:http>
+	
+	<!--  this is the vanilla website settings...-->
+	<security:http pattern="/**" authentication-manager-ref="basicAuthManager">	
+		<security:intercept-url pattern="/oauth/**" access="hasRole('ROLE_CRM_USER')"/>
+		<security:intercept-url pattern="/login.jsp" access="permitAll()"/>
+		<security:intercept-url pattern="/css/**" access="permitAll()"/>		
+		<security:intercept-url pattern="/login" access="permitAll()"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
+	
+		<security:form-login login-page="/login.jsp"
+					authentication-failure-url="/login.jsp?error=1"
+					login-processing-url="/login"/>
+					
+		<security:logout logout-success-url="/app/customers.html"/>
+							
+		<security:csrf/> 		
+	</security:http>
 </beans>
