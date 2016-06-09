@@ -25,7 +25,7 @@
 					<td>${customer.telephone}</td>
 				</tr>
 			</c:forEach>
-			<table>
+		</table>
 	</body>
 
 </html>
