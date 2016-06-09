@@ -13,11 +13,13 @@
  	<security:http pattern="/web/css/styles.css" security="none"/>
 		
 	<!--  setup for the authorization and token endpoints /oauth/authorize and /oauth/token -->
-	<oauth2:authorization-server client-details-service-ref="clientDetailsService">
+	<oauth2:authorization-server client-details-service-ref="clientDetailsService"
+								 user-approval-handler-ref="userApprovalHandler">
 		<oauth2:authorization-code/>
 	</oauth2:authorization-server>
 
-	<bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+	<bean id="clientDetailsUserService" 
+		class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
 		<constructor-arg ref="clientDetailsService"/>
 	</bean>
 
@@ -25,7 +27,7 @@
 		<oauth2:client client-id="mailer"
 					   authorized-grant-types="authorization_code"
 					   authorities="ROLE_CLIENT"
-					   scope="read"
+					   scope="read,write"
 					   secret="somesecretkey"/>
 	</oauth2:client-details-service>	
 	
@@ -54,9 +56,11 @@
 
 	<!--  the settings for our REST service -->
 	<security:http pattern="/rest/**" create-session="stateless" entry-point-ref="oauthTokenEntry">
-		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read')"/>	
+		<security:intercept-url pattern="/rest/customers" method="POST" access="#oauth2.hasScope('write')"/>	
+		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read') or #oauth2.hasScope('write')"/>	
 		<security:custom-filter ref="oauthFilter" before="PRE_AUTH_FILTER"/>
 		<security:expression-handler ref="expressionHandler"/>
+		<security:csrf/>
 	</security:http>
 	
 	<!-- specific settings for the token endpoint -->
@@ -84,4 +88,11 @@
 							
 		<security:csrf/> 		
 	</security:http>
+	
+	<!-- configuration specifically to handle user approval -->
+	<bean id="approvalStore" 
+		class="org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore"/>
+	<bean id="userApprovalHandler"
+		class="org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler"
+		autowire="byType"/>
 </beans>
