@@ -1,6 +1,7 @@
 package com.akash.spring.crm.webservices.rest.controllers;
 
 import java.net.URI;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.persistence.OptimisticLockException;
@@ -48,6 +49,9 @@ public class CRMRestController {
 	@Autowired
 	private ErrorInformation errorInformation;
 	
+	@Autowired
+	private HttpServletRequest request;
+	
 	Logger log = Logger.getLogger(CRMRestController.class);
 
 	/**
@@ -93,6 +97,15 @@ public class CRMRestController {
 	@RequestMapping(value = "/rest/customerlist", method = RequestMethod.GET)
 	public CustomerCollectionForRest getAllCustomers(@RequestParam(required = false) Integer first,
 			@RequestParam(required = false) Integer last) throws CustomerNotFoundException {
+		
+		Enumeration<String> headerNames = request.getHeaderNames();
+		
+		while (headerNames.hasMoreElements()) {
+			String next = headerNames.nextElement().toString();
+			String value = request.getHeader(next);
+			log.debug(next + " : " + value);
+		}
+		
 		List<Customer> customers = null;
 		customers = customerService.getAllCustomers();
 		for (Customer customer : customers) {

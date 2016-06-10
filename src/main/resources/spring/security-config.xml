@@ -60,7 +60,7 @@
 		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read') or #oauth2.hasScope('write')"/>	
 		<security:custom-filter ref="oauthFilter" before="PRE_AUTH_FILTER"/>
 		<security:expression-handler ref="expressionHandler"/>
-		<security:csrf/>
+		<security:csrf disabled="true"/>
 	</security:http>
 	
 	<!-- specific settings for the token endpoint -->
