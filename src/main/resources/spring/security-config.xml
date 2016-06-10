@@ -16,6 +16,7 @@
 	<oauth2:authorization-server client-details-service-ref="clientDetailsService"
 								 user-approval-handler-ref="userApprovalHandler">
 		<oauth2:authorization-code/>
+		<oauth2:client-credentials/>
 	</oauth2:authorization-server>
 
 	<bean id="clientDetailsUserService" 
@@ -29,6 +30,11 @@
 					   authorities="ROLE_CLIENT"
 					   scope="read,write"
 					   secret="somesecretkey"/>
+		<oauth2:client client-id="wsclient"
+					   authorized-grant-types="client_credentials"
+					   authorities="ROLE_WS_CLIENT"
+					   scope="ws_client"
+					   secret="wssecretkey"/>
 	</oauth2:client-details-service>	
 	
 	<security:authentication-manager id="basicAuthManager">
@@ -56,8 +62,8 @@
 
 	<!--  the settings for our REST service -->
 	<security:http pattern="/rest/**" create-session="stateless" entry-point-ref="oauthTokenEntry">
-		<security:intercept-url pattern="/rest/customers" method="POST" access="#oauth2.hasScope('write')"/>	
-		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read') or #oauth2.hasScope('write')"/>	
+		<security:intercept-url pattern="/rest/customers" method="POST" access="#oauth2.hasScope('write') or #oauth2.hasScope('ws_client')"/>	
+		<security:intercept-url pattern="/rest/**" access="#oauth2.hasScope('read') or #oauth2.hasScope('write') or #oauth2.hasScope('ws_client')"/>	
 		<security:custom-filter ref="oauthFilter" before="PRE_AUTH_FILTER"/>
 		<security:expression-handler ref="expressionHandler"/>
 		<security:csrf disabled="true"/>
@@ -66,7 +72,7 @@
 	<!-- specific settings for the token endpoint -->
 	<security:http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="oauthTokenEndpointAuthManager">
 	
-		<security:intercept-url pattern="/oauth/token" access="hasRole('ROLE_CLIENT')"/>
+		<security:intercept-url pattern="/oauth/token" access="hasRole('ROLE_CLIENT') or hasRole('ROLE_WS_CLIENT')"/>
 		<security:http-basic/>
 		<security:csrf disabled="true"/>
 	
