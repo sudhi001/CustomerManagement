@@ -1,6 +1,7 @@
 package com.akash.spring.crm.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,8 +15,11 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.social.security.SocialUser;
+
 @Entity
-public class User implements Serializable {
+public class User /*extends SocialUser*/ implements Serializable {
 
 	/**
 	 * 
@@ -41,6 +45,14 @@ public class User implements Serializable {
 
     private boolean enabled;
 
+//    public User() {
+//    	
+//    }
+//    
+//	public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+//		super(username, password, authorities);
+//	}
+	
 	public Integer getId() {
 		return id;
 	}

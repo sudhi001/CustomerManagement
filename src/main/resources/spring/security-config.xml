@@ -4,10 +4,12 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
 	xmlns:ldap="http://www.springframework.org/schema/ldap"
-	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
-		http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap-2.0.xsd
+	xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xsi:schemaLocation="http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap-2.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd">
  
  	<security:http pattern="/web/css/styles.css" security="none"/>
  	
@@ -37,6 +39,7 @@
 					   secret="wssecretkey"/>
 	</oauth2:client-details-service>	
 	
+	<!-- Authentication Manager for using LDAP as a source 
 	<security:ldap-server ldif="classpath:spring/ldap-repository.ldif"
 						  id="ldapServer"
 						  root="dc=akash,dc=com"/>
@@ -47,8 +50,19 @@
 											   user-search-base="ou=Users"
 											   group-search-base="ou=Groups"/>
 	</security:authentication-manager>
+	-->
 	
-	<!-- 
+	<!-- Spring Social Configs -->
+	<bean id="socialAuthenticationFilter"
+		class="org.springframework.social.security.SocialAuthenticationFilter"
+		autowire="constructor">
+		<constructor-arg ref="basicAuthManager"/>
+	</bean>
+	
+	<facebook:config app-secret="748a319ac7bdf5ea1cb6746b723cd47e" app-id="140221379717886"/>
+	
+	<!-- Authentication Manager using general JDBC as a source
+		and Spring Social as SSO source -->
 	<security:authentication-manager id="basicAuthManager">
 		<security:authentication-provider>
 		  <security:jdbc-user-service data-source-ref="dataSource"
@@ -58,8 +72,28 @@
                                								  user.name = ?"
                                users-by-username-query="select name, password, enabled from user where name = ?"/>
 		</security:authentication-provider>
+		<security:authentication-provider ref="socialAuthProvider"/>
 	</security:authentication-manager>
-	 -->
+	
+	<!-- This is a special auth provider that simply checks a list of valid social media ids from a list 
+	     of our registered users -->
+	<bean id="socialAuthProvider"
+		class="org.springframework.social.security.SocialAuthenticationProvider">
+		<constructor-arg ref="usersConnectionRepository"/>
+		<constructor-arg ref="socialUserDetailsService"/>
+	</bean>
+
+	<!-- User Connection Repository Bean for Spring Social -->
+	<bean id="usersConnectionRepository"
+		class="org.springframework.social.connect.mem.InMemoryUsersConnectionRepository"
+		autowire="constructor"/>
+	
+	<bean id="socialUserDetailsService"
+		class="com.akash.spring.crm.services.social.InMemorySocialUserDetailsService"/>
+	
+	<bean id="userIdSource"
+		class="org.springframework.social.security.AuthenticationNameUserIdSource"/>
+				
 	<!--  a second manager for the electronic clients ONLY -->
 	<security:authentication-manager id="oauthTokenEndpointAuthManager">
 		<security:authentication-provider user-service-ref="clientDetailsUserService"/>	
@@ -96,6 +130,7 @@
 		<security:intercept-url pattern="/login.jsp" access="permitAll()"/>
 		<security:intercept-url pattern="/css/**" access="permitAll()"/>		
 		<security:intercept-url pattern="/login" access="permitAll()"/>
+		<security:intercept-url pattern="/signup/**" access="permitAll()"/>
 		<security:intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
 	
 		<security:form-login login-page="/login.jsp"
@@ -103,7 +138,8 @@
 					login-processing-url="/login"/>
 					
 		<security:logout logout-success-url="/app/customers.html"/>
-							
+		
+		<security:custom-filter ref="socialAuthenticationFilter" before="PRE_AUTH_FILTER"/>							
 		<security:csrf/> 		
 	</security:http>
 	

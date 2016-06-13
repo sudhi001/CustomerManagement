@@ -22,7 +22,7 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Spring Dependencies -->
+		<!-- Spring Core and MVC Specific Dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -59,11 +59,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
+		<!-- Spring Dependency for Webflow -->
 		<dependency>
 			<groupId>org.springframework.webflow</groupId>
 			<artifactId>spring-webflow</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Spring Dependency for WebServices -->
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-ws-core</artifactId>
@@ -74,11 +76,13 @@
 			<artifactId>spring-xml</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Spring Dependency for HATEOAS -->
 		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Spring Security Dependencies -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -109,16 +113,61 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Spring OAuth Dependency -->
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<!-- Spring LDAP Dependency -->
 		<dependency>
 			<groupId>org.springframework.ldap</groupId>
 			<artifactId>spring-ldap-core</artifactId>
-			<version>2.1.0.RELEASE</version>
+			<version>LATEST</version>
 		</dependency>
+		<!-- Spring Social Core Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Facebook Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-facebook</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Twitter Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-twitter</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Linkedin Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-linkedin</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Web Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Config Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<!-- Spring Social Security Dependency -->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+			<version>LATEST</version>
+		</dependency>
+
 		<!-- JavaEE -->
 		<dependency>
 			<groupId>javax</groupId>

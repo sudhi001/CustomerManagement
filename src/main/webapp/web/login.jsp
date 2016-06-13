@@ -30,5 +30,8 @@
 			<label>CRM Password:</label> <input type="text" name="password" value="akash"/>
 			<input type="submit"/>
 		</form:form>
+		
+		<a href="/crm/auth/facebook">Sign in with Facebook</a>
+				
 	</body>
 </html>
