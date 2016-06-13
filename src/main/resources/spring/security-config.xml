@@ -3,14 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
-	xsi:schemaLocation="http://www.springframework.org/schema/security 
-						http://www.springframework.org/schema/security/spring-security-4.1.xsd
-						http://www.springframework.org/schema/security/oauth2 
-						http://www.springframework.org/schema/security/spring-security-oauth2.xsd
-						http://www.springframework.org/schema/beans 
-						http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:ldap="http://www.springframework.org/schema/ldap"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap-2.0.xsd
+		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  	<security:http pattern="/web/css/styles.css" security="none"/>
+ 	
 		
 	<!--  setup for the authorization and token endpoints /oauth/authorize and /oauth/token -->
 	<oauth2:authorization-server client-details-service-ref="clientDetailsService"
@@ -37,6 +37,18 @@
 					   secret="wssecretkey"/>
 	</oauth2:client-details-service>	
 	
+	<security:ldap-server ldif="classpath:spring/ldap-repository.ldif"
+						  id="ldapServer"
+						  root="dc=akash,dc=com"/>
+	
+	<security:authentication-manager id="basicAuthManager">
+		<security:ldap-authentication-provider server-ref="ldapServer"
+											   user-search-filter="(uid={0})"
+											   user-search-base="ou=Users"
+											   group-search-base="ou=Groups"/>
+	</security:authentication-manager>
+	
+	<!-- 
 	<security:authentication-manager id="basicAuthManager">
 		<security:authentication-provider>
 		  <security:jdbc-user-service data-source-ref="dataSource"
@@ -47,7 +59,7 @@
                                users-by-username-query="select name, password, enabled from user where name = ?"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
-	
+	 -->
 	<!--  a second manager for the electronic clients ONLY -->
 	<security:authentication-manager id="oauthTokenEndpointAuthManager">
 		<security:authentication-provider user-service-ref="clientDetailsUserService"/>	

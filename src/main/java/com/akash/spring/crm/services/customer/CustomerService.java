@@ -2,6 +2,8 @@ package com.akash.spring.crm.services.customer;
 
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+
 import com.akash.spring.crm.exceptions.CustomerNotFoundException;
 import com.akash.spring.crm.model.Call;
 import com.akash.spring.crm.model.Customer;
@@ -11,6 +13,7 @@ import com.akash.spring.crm.model.Customer;
  * to offer.
  * Created by Akash Agarwal on 5/2/2016.
  */
+@Secured({"ROLE_CRM_USER", "ROLE_CRM_ADMIN"})
 public interface CustomerService {
 
     /**
