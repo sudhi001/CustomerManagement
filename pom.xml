@@ -167,6 +167,22 @@
 			<artifactId>spring-social-security</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas-client</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+		<!-- http://mvnrepository.com/artifact/org.jasig.cas.client/cas-client-support-saml -->
+		<dependency>
+		    <groupId>org.jasig.cas.client</groupId>
+		    <artifactId>cas-client-support-saml</artifactId>
+		    <version>3.4.1</version>
+		</dependency>
 
 		<!-- JavaEE -->
 		<dependency>

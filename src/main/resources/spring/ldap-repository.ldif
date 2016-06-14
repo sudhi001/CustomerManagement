@@ -22,7 +22,7 @@ objectclass: uidObject
 objectclass: person
 objectclass: organizationalPerson
 cn: Richard Alex Chesterwood
-description: Staff Member
+description: ROLE_CRM_USER
 sn: Chesterwood
 uid: rac
 userpassword: secret
@@ -56,9 +56,9 @@ cn: CRM_User
 uniquemember: uid=rac,ou=Users,dc=akash,dc=com
 uniquemember: uid=bill,ou=Users,dc=akash,dc=com
 
-dn: cn=CRM_Admin,ou=Groups,dc=akash,dc=com
+dn: cn=Admin,ou=Groups,dc=akash,dc=com
 objectclass: top
 objectclass: groupOfUniqueNames
-cn: CRM_Admin
+cn: Admin
 uniquemember: uid=admin,ou=Users,dc=akash,dc=com
 
