@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:social="http://www.springframework.org/schema/social"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social.xsd">
+
+	<!-- Spring Social Configs  -->
+	<bean id="socialAuthenticationFilter"
+		class="org.springframework.social.security.SocialAuthenticationFilter"
+		autowire="constructor">
+		<constructor-arg ref="basicAuthManager"/>
+	</bean>
+
+	<facebook:config app-secret="748a319ac7bdf5ea1cb6746b723cd47e" app-id="140221379717886"/>
+	
+	<!-- This is a special auth provider that simply checks a list of valid social media ids from a list 
+	     of our registered users -->
+	<bean id="socialAuthProvider"
+		class="org.springframework.social.security.SocialAuthenticationProvider">
+		<constructor-arg ref="usersConnectionRepository"/>
+		<constructor-arg ref="socialUserDetailsService"/>
+	</bean>
+
+	<!-- User Connection Repository Bean for Spring Social -->
+	<bean id="usersConnectionRepository"
+		class="org.springframework.social.connect.mem.InMemoryUsersConnectionRepository"
+		autowire="constructor"/>
+	
+	<bean id="socialUserDetailsService"
+		class="com.akash.spring.crm.services.social.InMemorySocialUserDetailsService"/>
+	
+	<bean id="userIdSource"
+		class="org.springframework.social.security.AuthenticationNameUserIdSource"/>
+				
+</beans>

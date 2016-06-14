@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ldap="http://www.springframework.org/schema/ldap"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/ldap http://www.springframework.org/schema/ldap/spring-ldap-2.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- Authentication Manager for using LDAP as a source -->
+	<security:ldap-server ldif="classpath:spring/ldap-repository.ldif"
+		id="ldapServer" root="dc=akash,dc=com" />
+
+	<security:authentication-manager id="basicAuthManager">
+		<security:ldap-authentication-provider
+			server-ref="ldapServer" user-search-filter="(uid={0})"
+			user-search-base="ou=Users" group-search-base="ou=Groups" />
+	</security:authentication-manager>
+
+</beans>

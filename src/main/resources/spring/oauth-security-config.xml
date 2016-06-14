@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- setup for the authorization and token endpoints /oauth/authorize and 
+		/oauth/token -->
+	<oauth2:authorization-server
+		client-details-service-ref="clientDetailsService"
+		user-approval-handler-ref="userApprovalHandler">
+		<oauth2:authorization-code />
+		<oauth2:client-credentials />
+	</oauth2:authorization-server>
+
+	<bean id="clientDetailsUserService"
+		class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+		<constructor-arg ref="clientDetailsService" />
+	</bean>
+
+	<oauth2:client-details-service id="clientDetailsService">
+		<oauth2:client client-id="mailer"
+			authorized-grant-types="authorization_code" authorities="ROLE_CLIENT"
+			scope="read,write" secret="somesecretkey" />
+		<oauth2:client client-id="wsclient"
+			authorized-grant-types="client_credentials" authorities="ROLE_WS_CLIENT"
+			scope="ws_client" secret="wssecretkey" />
+	</oauth2:client-details-service>
+	
+	<!-- a second manager for the electronic clients ONLY -->
+	<security:authentication-manager id="oauthTokenEndpointAuthManager">
+		<security:authentication-provider
+			user-service-ref="clientDetailsUserService" />
+	</security:authentication-manager>
+
+	<!-- OAuth helper beans -->
+	<bean id="oauthTokenEntry"
+		class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
+	<oauth2:resource-server id="oauthFilter" />
+	<bean id="expressionHandler"
+		class="org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler" />
+
+	<!-- the settings for our REST service -->
+	<security:http pattern="/rest/**" create-session="stateless"
+		entry-point-ref="oauthTokenEntry">
+		<security:intercept-url pattern="/rest/customers"
+			method="POST" access="#oauth2.hasScope('write') or #oauth2.hasScope('ws_client')" />
+		<security:intercept-url pattern="/rest/**"
+			access="#oauth2.hasScope('read') or #oauth2.hasScope('write') or #oauth2.hasScope('ws_client')" />
+		<security:custom-filter ref="oauthFilter"
+			before="PRE_AUTH_FILTER" />
+		<security:expression-handler ref="expressionHandler" />
+		<security:csrf disabled="true" />
+	</security:http>
+
+	<!-- specific settings for the token endpoint -->
+	<security:http pattern="/oauth/token" create-session="stateless"
+		authentication-manager-ref="oauthTokenEndpointAuthManager">
+		<security:intercept-url pattern="/oauth/token"
+			access="hasRole('ROLE_CLIENT') or hasRole('ROLE_WS_CLIENT')" />
+		<security:http-basic />
+		<security:csrf disabled="true" />
+	</security:http>
+
+	<!-- configuration specifically to handle user approval -->
+	<bean id="approvalStore"
+		class="org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore" />
+	<bean id="userApprovalHandler"
+		class="org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler"
+		autowire="byType" />
+</beans>
